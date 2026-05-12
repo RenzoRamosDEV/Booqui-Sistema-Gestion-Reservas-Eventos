@@ -1,9 +1,13 @@
 // Plantilla para geenerar la entrada en pdf
 import { PDFDocument, rgb, StandardFonts } from 'pdf-lib'
-
-const LOGO_PATH = '/src/assets/logo_entrada.png' // Mismo logo que en checkout
+import logoUrl from '../assets/logo_entrada.png'
 
 function c(r, g, b) { return rgb(r / 255, g / 255, b / 255) }
+
+// Elimina caracteres que WinAnsi no puede codificar (ej: marcadores Unicode de Intl)
+function safe(str) {
+  return String(str ?? '').replace(/[^\x20-\x7E\xA0-\xFF]/g, '')
+}
 
 function roundRect(page, x, y, w, h, r, color, opacity) {
   const p = [
@@ -108,10 +112,10 @@ export async function generateTicketPDF({ bookingId, paymentId, items, user }) {
     const IMG_START = SPLIT
     const LOGO_Y = H - 42
 
-    // LOGO - EXACTAMENTE IGUAL QUE EN CHECKOUT
+    // LOGO
     let logoOk = false
     try {
-      const res = await fetch(LOGO_PATH)
+      const res = await fetch(logoUrl)
       if (res.ok) {
         const bytes = await res.arrayBuffer()
         const img = await pdfDoc.embedPng(bytes)
@@ -132,7 +136,7 @@ export async function generateTicketPDF({ bookingId, paymentId, items, user }) {
     const HDR_SEP = H - 52
     page.drawRectangle({ x: STRIPE_W + 14, y: HDR_SEP, width: IMG_START - STRIPE_W - 28, height: 0.8, color: LIGHT_GREY })
 
-    const titleRaw = item.title || 'Evento'
+    const titleRaw = safe(item.title || 'Evento')
     const tSize = titleRaw.length > 40 ? 11 : titleRaw.length > 28 ? 13.5 : titleRaw.length > 18 ? 16 : 19
     const TITLE_Y = HDR_SEP - 22
     page.drawText(titleRaw.toUpperCase(), {
@@ -145,8 +149,8 @@ export async function generateTicketPDF({ bookingId, paymentId, items, user }) {
     })
 
     const rawDate = item.startDate ? new Date(item.startDate) : new Date()
-    const dateStr = rawDate.toLocaleDateString('es-ES', { weekday: 'short', day: '2-digit', month: 'short', year: 'numeric' }).replace(/^\w/, ch => ch.toUpperCase())
-    const timeStr = rawDate.toLocaleTimeString('es-ES', { hour: '2-digit', minute: '2-digit' })
+    const dateStr = safe(rawDate.toLocaleDateString('es-ES', { weekday: 'short', day: '2-digit', month: 'short', year: 'numeric' }).replace(/^\w/, ch => ch.toUpperCase()))
+    const timeStr = safe(rawDate.toLocaleTimeString('es-ES', { hour: '2-digit', minute: '2-digit' }))
 
     const META_Y = TITLE_Y - 16
     page.drawText(`${dateStr}  -  ${timeStr}`, {
@@ -158,7 +162,7 @@ export async function generateTicketPDF({ bookingId, paymentId, items, user }) {
       maxWidth: IMG_START - STRIPE_W - 30,
     })
     if (item.location) {
-      page.drawText(item.location, {
+      page.drawText(safe(item.location), {
         x: STRIPE_W + 14,
         y: META_Y - 13,
         size: 7.5,
@@ -180,7 +184,7 @@ export async function generateTicketPDF({ bookingId, paymentId, items, user }) {
     const DATA_Y = MID_SEP - 14
 
     page.drawText('TITULAR', { x: COL1_X, y: DATA_Y, size: 5.5, font: bold, color: MID_GREY })
-    page.drawText(`${user.firstName || ''} ${user.lastName || ''}`.trim().toUpperCase() || 'COMPRADOR', {
+    page.drawText(safe(`${user.firstName || ''} ${user.lastName || ''}`.trim().toUpperCase()) || 'COMPRADOR', {
       x: COL1_X,
       y: DATA_Y - 13,
       size: 9.5,
@@ -188,7 +192,7 @@ export async function generateTicketPDF({ bookingId, paymentId, items, user }) {
       color: NEAR_BLACK,
       maxWidth: 100,
     })
-    page.drawText(user.contactEmail || '', {
+    page.drawText(safe(user.contactEmail || ''), {
       x: COL1_X,
       y: DATA_Y - 25,
       size: 6.5,
