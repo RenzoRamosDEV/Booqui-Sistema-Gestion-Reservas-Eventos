@@ -206,6 +206,10 @@ El proyecto está completamente dockerizado y puede desplegarse fácilmente usan
 - Red Docker dedicada para comunicación entre servicios
 - Volúmenes persistentes para la base de datos
 
+## Agradecimientos
+
+Este proyecto no hubiera sido posible sin el esfuerzo, la dedicación y el trabajo en equipo de quienes lo desarrollaron. Gracias por las largas horas de debugging, las ideas compartidas y el compromiso con cada detalle del sistema.
+
 ## Desarrolladores
 
 - **Renzo Iván Ramos de los Ríos**
