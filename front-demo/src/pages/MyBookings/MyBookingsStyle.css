@@ -6,12 +6,22 @@
   color: #1a1a1a;
   background: #fafaf9;
   min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+.mybookings-root .mybookings-container {
+  flex: 1;
 }
 
 .mybookings-container {
   max-width: 1200px;
+  width: 100%;
   margin: 0 auto;
   padding: 96px 2rem 4rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
 }
 
 .mybookings-header {
@@ -198,7 +208,7 @@
 .mybookings-empty,
 .mybookings-login-prompt {
   text-align: center;
-  padding: 4rem 2rem;
+  padding: 2rem;
 }
 
 .mybookings-spinner {
