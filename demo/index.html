@@ -1,0 +1,1549 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Booqi — Gestión de Eventos</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=DM+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+  <style>
+    /* ── RESET ── */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body { font-family: 'DM Sans', sans-serif; color: #1a1a1a; background: #fff; overflow-x: hidden; }
+    a { text-decoration: none; color: inherit; }
+    img { max-width: 100%; display: block; }
+    button { cursor: pointer; border: none; outline: none; }
+
+    /* ── VARIABLES ── */
+    :root {
+      --purple: #6d28d9;
+      --purple-light: #ede9fe;
+      --purple-dark: #4c1d95;
+      --text: #1a1a1a;
+      --muted: #6b7280;
+      --border: rgba(0,0,0,0.08);
+      --radius: 12px;
+      --shadow: 0 4px 20px rgba(0,0,0,0.10);
+    }
+
+    /* ── VIEWS (SPA) ── */
+    .view { display: none; min-height: 100vh; }
+    .view.active { display: block; }
+
+    /* ── DEMO BANNER ── */
+    .demo-banner {
+      background: linear-gradient(90deg, var(--purple) 0%, #7c3aed 100%);
+      color: #fff;
+      text-align: center;
+      padding: 0.5rem 1rem;
+      font-size: 0.85rem;
+      font-weight: 500;
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      z-index: 9999;
+    }
+    .demo-banner span { opacity: 0.8; margin-right: 0.5rem; }
+
+    /* ── NAVBAR ── */
+    .navbar {
+      position: fixed;
+      top: 34px; left: 0; right: 0;
+      z-index: 100;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 3rem;
+      height: 72px;
+      background: rgba(255,255,255,0.98);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--border);
+    }
+    .nav-logo {
+      font-family: 'DM Sans', sans-serif;
+      font-weight: 700;
+      font-size: 1.9rem;
+      color: var(--purple);
+      letter-spacing: -1.5px;
+      cursor: pointer;
+    }
+    .nav-links { display: flex; align-items: center; gap: 2rem; }
+    .nav-link {
+      font-size: 0.95rem;
+      font-weight: 500;
+      color: var(--muted);
+      cursor: pointer;
+      transition: color 0.2s;
+    }
+    .nav-link:hover, .nav-link.active { color: var(--purple); }
+    .nav-actions { display: flex; align-items: center; gap: 1rem; }
+    .btn-outline {
+      padding: 0.5rem 1.25rem;
+      border: 2px solid var(--purple);
+      border-radius: 8px;
+      color: var(--purple);
+      font-weight: 600;
+      font-size: 0.9rem;
+      background: transparent;
+      transition: all 0.2s;
+      cursor: pointer;
+    }
+    .btn-outline:hover { background: var(--purple); color: #fff; }
+    .btn-solid {
+      padding: 0.5rem 1.25rem;
+      border-radius: 8px;
+      background: var(--purple);
+      color: #fff;
+      font-weight: 600;
+      font-size: 0.9rem;
+      cursor: pointer;
+      transition: background 0.2s;
+    }
+    .btn-solid:hover { background: var(--purple-dark); }
+    .cart-icon { position: relative; cursor: pointer; font-size: 1.4rem; }
+    .cart-badge {
+      position: absolute;
+      top: -6px; right: -8px;
+      background: var(--purple);
+      color: #fff;
+      font-size: 0.7rem;
+      font-weight: 700;
+      width: 18px; height: 18px;
+      border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+    }
+    .user-pill {
+      display: flex; align-items: center; gap: 0.5rem;
+      background: var(--purple-light);
+      border-radius: 20px;
+      padding: 0.35rem 1rem;
+      font-size: 0.9rem;
+      font-weight: 600;
+      color: var(--purple);
+      cursor: pointer;
+    }
+    .spacer { height: 106px; }
+
+    /* ── HOME HERO ── */
+    .hero {
+      position: relative;
+      height: 100vh;
+      min-height: 650px;
+      display: flex;
+      align-items: center;
+      justify-content: flex-end;
+    }
+    .hero-bg {
+      position: absolute; inset: 0;
+      background-image: url('https://images.unsplash.com/photo-1540039155733-5bb30b53aa14?w=1600&q=80');
+      background-size: cover;
+      background-position: center 30%;
+      filter: brightness(0.5);
+    }
+    .hero-overlay {
+      position: absolute; inset: 0;
+      background: linear-gradient(90deg, rgba(0,0,0,0.4) 0%, transparent 60%);
+    }
+    .hero-card {
+      position: relative;
+      max-width: 520px;
+      margin-right: 8%;
+      color: #fff;
+    }
+    .hero-card h1 {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(2rem, 4vw, 3.2rem);
+      line-height: 1.15;
+      margin-bottom: 1.5rem;
+    }
+    .hero-cta {
+      display: inline-block;
+      background: var(--purple);
+      color: #fff;
+      padding: 0.9rem 2.2rem;
+      border-radius: 8px;
+      font-weight: 700;
+      font-size: 1rem;
+      letter-spacing: 1px;
+      transition: background 0.2s;
+      cursor: pointer;
+    }
+    .hero-cta:hover { background: var(--purple-dark); }
+
+    /* ── FEATURED SECTION ── */
+    .featured { padding: 5rem 3rem; display: flex; gap: 4rem; align-items: flex-start; }
+    .featured-text { flex: 0 0 280px; }
+    .featured-text h2 {
+      font-family: 'Playfair Display', serif;
+      font-size: 2rem;
+      line-height: 1.3;
+      margin-bottom: 1rem;
+    }
+    .featured-text p { color: var(--muted); margin-bottom: 1.5rem; font-style: italic; }
+    .link-purple { color: var(--purple); font-weight: 600; cursor: pointer; }
+    .link-purple:hover { text-decoration: underline; }
+    .featured-slider {
+      display: flex;
+      gap: 1rem;
+      overflow-x: auto;
+      flex: 1;
+      padding-bottom: 0.5rem;
+      scrollbar-width: thin;
+    }
+    .featured-card {
+      flex: 0 0 240px;
+      border-radius: var(--radius);
+      overflow: hidden;
+      box-shadow: var(--shadow);
+      cursor: pointer;
+      transition: transform 0.2s;
+    }
+    .featured-card:hover { transform: translateY(-4px); }
+    .featured-card img { width: 100%; height: 180px; object-fit: cover; }
+    .featured-card-info { padding: 0.75rem; background: #fff; }
+    .featured-card-date { font-size: 0.75rem; color: var(--muted); }
+    .featured-card-title { font-weight: 600; font-size: 0.95rem; margin-top: 0.25rem; }
+
+    /* ── TESTIMONIALS ── */
+    .testimonials { background: #fafafa; padding: 5rem 3rem; }
+    .testimonials-header { text-align: center; margin-bottom: 3rem; }
+    .testimonials-header .subtitle {
+      font-size: 0.8rem;
+      letter-spacing: 2px;
+      color: var(--purple);
+      font-weight: 600;
+      text-transform: uppercase;
+      margin-bottom: 0.5rem;
+    }
+    .testimonials-header h2 { font-family: 'Playfair Display', serif; font-size: 2rem; }
+    .testimonials-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 1.5rem; max-width: 1000px; margin: 0 auto; }
+    .testimonial-card {
+      background: #fff;
+      border-radius: var(--radius);
+      padding: 2rem;
+      box-shadow: var(--shadow);
+    }
+    .testimonial-stars { color: #f59e0b; font-size: 1.1rem; margin-bottom: 0.75rem; }
+    .testimonial-card p { color: var(--muted); line-height: 1.6; margin-bottom: 1.25rem; font-style: italic; }
+    .testimonial-user { display: flex; align-items: center; gap: 0.75rem; }
+    .testimonial-user img { width: 44px; height: 44px; border-radius: 50%; object-fit: cover; }
+    .user-name { display: block; font-weight: 600; font-size: 0.95rem; }
+    .user-role { display: block; font-size: 0.8rem; color: var(--muted); }
+
+    /* ── HASHTAG SECTION ── */
+    .hashtag-section { padding: 5rem 3rem; text-align: center; }
+    .hashtag-section p { color: var(--muted); margin-bottom: 0.25rem; }
+    .hashtag-section h3 { font-family: 'Playfair Display', serif; font-size: 2rem; color: var(--purple); margin-bottom: 2rem; }
+    .hashtag-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      grid-template-rows: 200px 200px;
+      gap: 0.75rem;
+      max-width: 900px;
+      margin: 0 auto;
+    }
+    .hashtag-img { border-radius: var(--radius); overflow: hidden; }
+    .hashtag-img img { width: 100%; height: 100%; object-fit: cover; }
+    .hashtag-img.tall { grid-row: 1 / 3; }
+
+    /* ── FOOTER ── */
+    .footer {
+      background: #111;
+      color: #fff;
+      padding: 2rem 3rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 1rem;
+    }
+    .footer-logo { font-weight: 700; font-size: 1.6rem; color: var(--purple); letter-spacing: -1px; }
+    .footer-links { display: flex; gap: 1.5rem; }
+    .footer-links span { color: rgba(255,255,255,0.7); font-size: 0.9rem; cursor: pointer; }
+    .footer-links span:hover { color: #fff; }
+    .footer-copy { color: rgba(255,255,255,0.4); font-size: 0.8rem; }
+
+    /* ── EVENTS PAGE ── */
+    .ev-hero {
+      position: relative; height: 280px;
+      display: flex; align-items: center; justify-content: center;
+    }
+    .ev-hero-bg {
+      position: absolute; inset: 0;
+      background-image: url('https://images.unsplash.com/photo-1493225457124-a3eb161ffa5f?w=1200&q=80');
+      background-size: cover; background-position: center;
+      filter: brightness(0.4);
+    }
+    .ev-hero-content { position: relative; text-align: center; color: #fff; }
+    .ev-hero-content h1 { font-family: 'Playfair Display', serif; font-size: 3rem; margin-bottom: 0.5rem; }
+    .breadcrumb { font-size: 0.9rem; color: rgba(255,255,255,0.7); }
+    .breadcrumb span { margin: 0 0.5rem; cursor: pointer; color: rgba(255,255,255,0.9); }
+    .ev-toolbar {
+      display: flex; align-items: center; justify-content: space-between;
+      flex-wrap: wrap; gap: 1rem;
+      padding: 1.5rem 3rem;
+      border-bottom: 1px solid var(--border);
+    }
+    .cat-tabs { display: flex; gap: 0.5rem; flex-wrap: wrap; }
+    .cat-tab {
+      padding: 0.45rem 1.1rem;
+      border-radius: 20px;
+      border: 1.5px solid var(--border);
+      background: #fff;
+      font-size: 0.88rem;
+      font-weight: 500;
+      color: var(--muted);
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+    .cat-tab:hover, .cat-tab.active {
+      background: var(--purple);
+      color: #fff;
+      border-color: var(--purple);
+    }
+    .toolbar-right { display: flex; align-items: center; gap: 1rem; }
+    .search-input {
+      padding: 0.5rem 1rem;
+      border: 1.5px solid var(--border);
+      border-radius: 8px;
+      font-size: 0.9rem;
+      font-family: 'DM Sans', sans-serif;
+      width: 220px;
+      outline: none;
+      transition: border-color 0.2s;
+    }
+    .search-input:focus { border-color: var(--purple); }
+    .show-label { font-size: 0.85rem; color: var(--muted); white-space: nowrap; }
+    .ev-grid-wrap { padding: 2.5rem 3rem; }
+    .ev-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+      gap: 1.5rem;
+    }
+    .ev-card {
+      border-radius: var(--radius);
+      overflow: hidden;
+      box-shadow: var(--shadow);
+      background: #fff;
+      cursor: pointer;
+      transition: transform 0.2s, box-shadow 0.2s;
+    }
+    .ev-card:hover { transform: translateY(-4px); box-shadow: 0 8px 30px rgba(0,0,0,0.15); }
+    .ev-card-img { position: relative; height: 180px; overflow: hidden; }
+    .ev-card-img img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.3s; }
+    .ev-card:hover .ev-card-img img { transform: scale(1.04); }
+    .ev-badge {
+      position: absolute; top: 10px; left: 10px;
+      padding: 0.2rem 0.6rem;
+      border-radius: 4px;
+      font-size: 0.72rem;
+      font-weight: 700;
+      letter-spacing: 0.5px;
+    }
+    .badge-new { background: var(--purple); color: #fff; }
+    .badge-soldout { background: #ef4444; color: #fff; }
+    .badge-low { background: #f59e0b; color: #fff; }
+    .ev-card-body { padding: 1rem; }
+    .ev-card-title { font-weight: 600; font-size: 1rem; margin-bottom: 0.25rem; }
+    .ev-card-location { font-size: 0.82rem; color: var(--muted); margin-bottom: 0.4rem; }
+    .ev-card-meta { font-size: 0.82rem; color: var(--muted); margin-bottom: 0.75rem; }
+    .ev-card-footer { display: flex; align-items: flex-end; justify-content: space-between; }
+    .ev-card-price { font-size: 1.2rem; font-weight: 700; color: var(--purple); }
+    .stock-text { font-size: 0.75rem; color: var(--muted); display: block; margin-bottom: 0.15rem; }
+    .ev-add-btn {
+      padding: 0.45rem 0.9rem;
+      border-radius: 8px;
+      background: var(--purple);
+      color: #fff;
+      font-size: 0.85rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: background 0.2s;
+    }
+    .ev-add-btn:hover { background: var(--purple-dark); }
+    .ev-add-btn.added { background: #16a34a; }
+    .ev-add-btn.disabled { background: #9ca3af; cursor: not-allowed; }
+
+    /* ── EVENT DETAIL ── */
+    .detail-wrap { max-width: 1100px; margin: 0 auto; padding: 3rem; display: grid; grid-template-columns: 1fr 380px; gap: 3rem; }
+    .detail-img { border-radius: var(--radius); overflow: hidden; height: 400px; }
+    .detail-img img { width: 100%; height: 100%; object-fit: cover; }
+    .detail-body { }
+    .detail-cat {
+      display: inline-block;
+      background: var(--purple-light);
+      color: var(--purple);
+      font-size: 0.78rem;
+      font-weight: 700;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      padding: 0.25rem 0.75rem;
+      border-radius: 20px;
+      margin-bottom: 1rem;
+    }
+    .detail-title { font-family: 'Playfair Display', serif; font-size: 2.2rem; line-height: 1.2; margin-bottom: 1.5rem; }
+    .detail-meta { display: flex; flex-direction: column; gap: 0.7rem; margin-bottom: 1.5rem; }
+    .detail-meta-row { display: flex; align-items: center; gap: 0.6rem; font-size: 0.95rem; color: var(--muted); }
+    .detail-meta-row strong { color: var(--text); }
+    .detail-description { line-height: 1.7; color: var(--muted); margin-bottom: 2rem; }
+    .detail-sidebar {
+      background: #fafafa;
+      border-radius: var(--radius);
+      padding: 2rem;
+      border: 1px solid var(--border);
+      position: sticky;
+      top: 120px;
+      height: fit-content;
+    }
+    .sidebar-price { font-size: 2rem; font-weight: 700; color: var(--purple); margin-bottom: 0.5rem; }
+    .sidebar-stock { font-size: 0.85rem; color: var(--muted); margin-bottom: 1.5rem; }
+    .qty-control { display: flex; align-items: center; gap: 1rem; margin-bottom: 1.5rem; }
+    .qty-btn {
+      width: 36px; height: 36px;
+      border-radius: 8px;
+      background: var(--purple-light);
+      color: var(--purple);
+      font-size: 1.2rem;
+      font-weight: 700;
+      display: flex; align-items: center; justify-content: center;
+      cursor: pointer;
+      border: none;
+    }
+    .qty-val { font-size: 1.1rem; font-weight: 600; min-width: 24px; text-align: center; }
+    .btn-add-cart {
+      width: 100%;
+      padding: 0.9rem;
+      background: var(--purple);
+      color: #fff;
+      border-radius: 10px;
+      font-size: 1rem;
+      font-weight: 700;
+      cursor: pointer;
+      transition: background 0.2s;
+      margin-bottom: 0.75rem;
+    }
+    .btn-add-cart:hover { background: var(--purple-dark); }
+    .btn-added { background: #16a34a; }
+
+    /* ── CART ── */
+    .cart-wrap { max-width: 900px; margin: 0 auto; padding: 3rem; }
+    .cart-wrap h2 { font-family: 'Playfair Display', serif; font-size: 2rem; margin-bottom: 2rem; }
+    .cart-empty { text-align: center; padding: 4rem 2rem; color: var(--muted); }
+    .cart-empty .big-icon { font-size: 4rem; margin-bottom: 1rem; }
+    .cart-items { display: flex; flex-direction: column; gap: 1rem; margin-bottom: 2rem; }
+    .cart-item {
+      display: flex; align-items: center; gap: 1.5rem;
+      padding: 1.25rem;
+      background: #fafafa;
+      border-radius: var(--radius);
+      border: 1px solid var(--border);
+    }
+    .cart-item-img { width: 90px; height: 70px; border-radius: 8px; object-fit: cover; flex-shrink: 0; }
+    .cart-item-body { flex: 1; }
+    .cart-item-title { font-weight: 600; font-size: 1rem; margin-bottom: 0.25rem; }
+    .cart-item-meta { font-size: 0.83rem; color: var(--muted); }
+    .cart-item-price { font-size: 1.15rem; font-weight: 700; color: var(--purple); }
+    .cart-item-remove { color: #ef4444; font-size: 1.3rem; cursor: pointer; padding: 0.25rem; }
+    .cart-summary {
+      border-top: 1px solid var(--border);
+      padding-top: 1.5rem;
+      display: flex; justify-content: space-between; align-items: center;
+    }
+    .cart-total { font-size: 1.3rem; font-weight: 700; }
+    .cart-total span { color: var(--purple); }
+
+    /* ── CHECKOUT ── */
+    .checkout-wrap { max-width: 700px; margin: 0 auto; padding: 3rem; }
+    .checkout-wrap h2 { font-family: 'Playfair Display', serif; font-size: 2rem; margin-bottom: 2rem; }
+    .form-section { margin-bottom: 2rem; }
+    .form-section h3 { font-size: 1.1rem; font-weight: 600; margin-bottom: 1rem; padding-bottom: 0.5rem; border-bottom: 1px solid var(--border); }
+    .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-bottom: 1rem; }
+    .form-group { display: flex; flex-direction: column; gap: 0.4rem; margin-bottom: 1rem; }
+    .form-label { font-size: 0.88rem; font-weight: 500; color: var(--text); }
+    .form-input {
+      padding: 0.65rem 1rem;
+      border: 1.5px solid var(--border);
+      border-radius: 8px;
+      font-size: 0.95rem;
+      font-family: 'DM Sans', sans-serif;
+      outline: none;
+      transition: border-color 0.2s;
+    }
+    .form-input:focus { border-color: var(--purple); }
+    .order-summary {
+      background: #fafafa;
+      border-radius: var(--radius);
+      padding: 1.5rem;
+      margin-bottom: 2rem;
+      border: 1px solid var(--border);
+    }
+    .order-summary h3 { margin-bottom: 1rem; }
+    .order-row { display: flex; justify-content: space-between; padding: 0.5rem 0; font-size: 0.95rem; }
+    .order-row.total { border-top: 1px solid var(--border); margin-top: 0.5rem; padding-top: 0.75rem; font-weight: 700; font-size: 1.05rem; }
+    .order-row.total span:last-child { color: var(--purple); }
+    .success-msg {
+      text-align: center;
+      padding: 3rem 2rem;
+    }
+    .success-icon { font-size: 5rem; margin-bottom: 1rem; }
+    .success-msg h2 { font-family: 'Playfair Display', serif; font-size: 2rem; color: #16a34a; margin-bottom: 0.5rem; }
+    .success-msg p { color: var(--muted); }
+
+    /* ── LOGIN / REGISTER ── */
+    .auth-wrap {
+      min-height: calc(100vh - 106px);
+      display: flex; align-items: center; justify-content: center;
+      background: linear-gradient(135deg, #f3f0ff 0%, #fdf4ff 100%);
+      padding: 2rem;
+    }
+    .auth-card {
+      background: #fff;
+      border-radius: 16px;
+      padding: 2.5rem;
+      width: 100%;
+      max-width: 420px;
+      box-shadow: 0 10px 40px rgba(109,40,217,0.12);
+    }
+    .auth-logo { font-size: 2rem; font-weight: 700; color: var(--purple); letter-spacing: -1px; margin-bottom: 0.5rem; }
+    .auth-subtitle { color: var(--muted); font-size: 0.9rem; margin-bottom: 2rem; }
+    .auth-card h2 { font-size: 1.5rem; font-weight: 700; margin-bottom: 0.25rem; }
+    .auth-footer { margin-top: 1.5rem; text-align: center; font-size: 0.88rem; color: var(--muted); }
+    .auth-footer span { color: var(--purple); font-weight: 600; cursor: pointer; }
+    .auth-footer span:hover { text-decoration: underline; }
+    .divider { display: flex; align-items: center; gap: 1rem; margin: 1.5rem 0; color: var(--muted); font-size: 0.85rem; }
+    .divider::before, .divider::after { content: ''; flex: 1; height: 1px; background: var(--border); }
+    .social-btn {
+      width: 100%;
+      padding: 0.7rem;
+      border: 1.5px solid var(--border);
+      border-radius: 8px;
+      background: #fff;
+      font-size: 0.92rem;
+      font-weight: 500;
+      cursor: pointer;
+      display: flex; align-items: center; justify-content: center; gap: 0.5rem;
+      transition: border-color 0.2s;
+    }
+    .social-btn:hover { border-color: var(--purple); }
+
+    /* ── MY BOOKINGS ── */
+    .bookings-wrap { max-width: 900px; margin: 0 auto; padding: 3rem; }
+    .bookings-wrap h2 { font-family: 'Playfair Display', serif; font-size: 2rem; margin-bottom: 0.5rem; }
+    .bookings-subtitle { color: var(--muted); margin-bottom: 2rem; }
+    .booking-card {
+      display: grid; grid-template-columns: 120px 1fr auto;
+      gap: 1.5rem; align-items: center;
+      padding: 1.5rem;
+      background: #fff;
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      margin-bottom: 1rem;
+      border: 1px solid var(--border);
+      cursor: pointer;
+      transition: transform 0.2s;
+    }
+    .booking-card:hover { transform: translateY(-2px); }
+    .booking-card-img { width: 120px; height: 90px; border-radius: 8px; object-fit: cover; }
+    .booking-title { font-weight: 600; font-size: 1rem; margin-bottom: 0.25rem; }
+    .booking-meta { font-size: 0.83rem; color: var(--muted); line-height: 1.6; }
+    .booking-status {
+      padding: 0.35rem 0.9rem;
+      border-radius: 20px;
+      font-size: 0.8rem;
+      font-weight: 600;
+      text-align: center;
+      white-space: nowrap;
+    }
+    .status-confirmed { background: #dcfce7; color: #16a34a; }
+    .status-pending { background: #fef9c3; color: #ca8a04; }
+    .status-cancelled { background: #fee2e2; color: #dc2626; }
+    .booking-total { font-weight: 700; color: var(--purple); margin-top: 0.5rem; font-size: 1.05rem; }
+
+    /* ── ADMIN PANEL ── */
+    .admin-layout { display: grid; grid-template-columns: 240px 1fr; min-height: calc(100vh - 106px); }
+    .admin-sidebar {
+      background: #1e1b4b;
+      color: #fff;
+      padding: 2rem 1.5rem;
+    }
+    .admin-sidebar h3 { font-size: 0.75rem; letter-spacing: 2px; text-transform: uppercase; color: rgba(255,255,255,0.4); margin-bottom: 1rem; margin-top: 1.5rem; }
+    .admin-sidebar h3:first-child { margin-top: 0; }
+    .admin-nav-item {
+      display: flex; align-items: center; gap: 0.75rem;
+      padding: 0.65rem 0.75rem;
+      border-radius: 8px;
+      font-size: 0.92rem;
+      font-weight: 500;
+      color: rgba(255,255,255,0.75);
+      cursor: pointer;
+      transition: all 0.2s;
+      margin-bottom: 0.25rem;
+    }
+    .admin-nav-item:hover, .admin-nav-item.active { background: rgba(255,255,255,0.12); color: #fff; }
+    .admin-main { padding: 2.5rem; background: #f8f7ff; }
+    .admin-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 2rem; }
+    .admin-header h1 { font-family: 'Playfair Display', serif; font-size: 1.8rem; }
+    .stats-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 1.25rem; margin-bottom: 2rem; }
+    .stat-card {
+      background: #fff;
+      border-radius: var(--radius);
+      padding: 1.5rem;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.06);
+    }
+    .stat-icon { font-size: 2rem; margin-bottom: 0.75rem; }
+    .stat-value { font-size: 2rem; font-weight: 700; color: var(--text); margin-bottom: 0.25rem; }
+    .stat-label { font-size: 0.83rem; color: var(--muted); }
+    .stat-trend { font-size: 0.78rem; margin-top: 0.5rem; }
+    .trend-up { color: #16a34a; }
+    .admin-table-wrap {
+      background: #fff;
+      border-radius: var(--radius);
+      box-shadow: 0 2px 10px rgba(0,0,0,0.06);
+      overflow: hidden;
+    }
+    .admin-table-header {
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 1.25rem 1.5rem;
+      border-bottom: 1px solid var(--border);
+    }
+    .admin-table-header h3 { font-weight: 600; }
+    table { width: 100%; border-collapse: collapse; }
+    th { padding: 0.75rem 1.25rem; text-align: left; font-size: 0.8rem; color: var(--muted); font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px; background: #fafafa; border-bottom: 1px solid var(--border); }
+    td { padding: 1rem 1.25rem; font-size: 0.92rem; border-bottom: 1px solid var(--border); vertical-align: middle; }
+    tr:last-child td { border-bottom: none; }
+    tr:hover td { background: #faf9ff; }
+    .table-img { width: 44px; height: 44px; border-radius: 8px; object-fit: cover; }
+    .table-actions { display: flex; gap: 0.5rem; }
+    .btn-icon {
+      padding: 0.35rem 0.7rem;
+      border-radius: 6px;
+      font-size: 0.8rem;
+      font-weight: 600;
+      cursor: pointer;
+    }
+    .btn-edit { background: var(--purple-light); color: var(--purple); }
+    .btn-delete { background: #fee2e2; color: #dc2626; }
+
+    /* ── CONTACT ── */
+    .contact-wrap { max-width: 700px; margin: 0 auto; padding: 3rem; }
+    .contact-wrap h2 { font-family: 'Playfair Display', serif; font-size: 2rem; margin-bottom: 0.5rem; }
+    .contact-subtitle { color: var(--muted); margin-bottom: 2.5rem; }
+    .contact-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 2rem; }
+    .contact-info { display: flex; flex-direction: column; gap: 1.5rem; }
+    .contact-info-item { display: flex; gap: 1rem; align-items: flex-start; }
+    .contact-info-icon {
+      width: 44px; height: 44px; flex-shrink: 0;
+      background: var(--purple-light);
+      border-radius: 10px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1.2rem;
+    }
+    .contact-info-text strong { display: block; font-size: 0.9rem; margin-bottom: 0.15rem; }
+    .contact-info-text span { font-size: 0.85rem; color: var(--muted); }
+    textarea.form-input { resize: vertical; min-height: 120px; }
+
+    /* ── ALERTS ── */
+    .alert {
+      padding: 0.75rem 1.25rem;
+      border-radius: 8px;
+      font-size: 0.9rem;
+      margin-bottom: 1rem;
+      display: flex; align-items: center; gap: 0.5rem;
+    }
+    .alert-success { background: #dcfce7; color: #16a34a; }
+    .alert-error { background: #fee2e2; color: #dc2626; }
+    .alert { display: none; }
+    .alert.show { display: flex; }
+
+    /* ── TOAST ── */
+    #toast {
+      position: fixed;
+      bottom: 2rem; right: 2rem;
+      background: #1a1a1a;
+      color: #fff;
+      padding: 0.9rem 1.5rem;
+      border-radius: 10px;
+      font-size: 0.9rem;
+      font-weight: 500;
+      box-shadow: 0 8px 30px rgba(0,0,0,0.2);
+      transform: translateY(100px);
+      opacity: 0;
+      transition: all 0.3s ease;
+      z-index: 9999;
+      max-width: 320px;
+    }
+    #toast.show { transform: translateY(0); opacity: 1; }
+
+    /* ── RESPONSIVE ── */
+    @media (max-width: 768px) {
+      .navbar { padding: 0 1rem; }
+      .nav-links { display: none; }
+      .hero-card { margin-right: 5%; max-width: 90%; }
+      .featured { flex-direction: column; padding: 2rem 1rem; }
+      .testimonials { padding: 3rem 1rem; }
+      .hashtag-section { padding: 3rem 1rem; }
+      .hashtag-grid { grid-template-columns: repeat(2, 1fr); }
+      .ev-toolbar { flex-direction: column; padding: 1rem; }
+      .ev-grid-wrap { padding: 1.5rem 1rem; }
+      .detail-wrap { grid-template-columns: 1fr; padding: 1.5rem; }
+      .admin-layout { grid-template-columns: 1fr; }
+      .admin-sidebar { display: none; }
+      .stats-grid { grid-template-columns: repeat(2, 1fr); }
+      .contact-grid { grid-template-columns: 1fr; }
+      .form-row { grid-template-columns: 1fr; }
+      .booking-card { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- DEMO BANNER -->
+<div class="demo-banner">
+  <span>🎭 DEMO</span> Esta es una demostración visual de Booqi — los datos son ficticios y las acciones son simuladas
+</div>
+
+<!-- NAVBAR (shared) -->
+<nav class="navbar" id="navbar">
+  <span class="nav-logo" onclick="showView('home')">booqi</span>
+  <div class="nav-links">
+    <span class="nav-link" onclick="showView('home')">Inicio</span>
+    <span class="nav-link" onclick="showView('events')">Eventos</span>
+    <span class="nav-link" onclick="showView('contact')">Contacto</span>
+  </div>
+  <div class="nav-actions">
+    <div class="cart-icon" onclick="showView('cart')" title="Ver carrito">
+      🛒
+      <span class="cart-badge" id="cart-badge">0</span>
+    </div>
+    <div id="nav-auth">
+      <button class="btn-outline" onclick="showView('login')" style="margin-right:0.5rem">Iniciar sesión</button>
+      <button class="btn-solid" onclick="showView('register')">Registrarse</button>
+    </div>
+    <div id="nav-user" style="display:none">
+      <div class="user-pill" onclick="showView('bookings')">👤 <span id="user-name-nav">Usuario</span></div>
+    </div>
+    <span id="nav-admin-link" style="display:none; margin-left:0.5rem">
+      <button class="btn-solid" onclick="showView('admin')">Admin</button>
+    </span>
+  </div>
+</nav>
+
+<!-- ======================================================
+     VIEW: HOME
+     ====================================================== -->
+<div id="view-home" class="view active">
+  <div class="spacer"></div>
+
+  <!-- Hero -->
+  <section class="hero">
+    <div class="hero-bg"></div>
+    <div class="hero-overlay"></div>
+    <div class="hero-card">
+      <h1>Gestiona tus eventos sin complicaciones.</h1>
+      <span class="hero-cta" onclick="showView('events')">EMPIEZA AHORA</span>
+    </div>
+  </section>
+
+  <!-- Featured -->
+  <section class="featured">
+    <div class="featured-text">
+      <h2>Explora los mejores eventos de la semana.</h2>
+      <p>"Soluciones a medida para cada tipo de reserva."</p>
+      <span class="link-purple" onclick="showView('events')">Explorar más →</span>
+    </div>
+    <div class="featured-slider" id="featured-slider"></div>
+  </section>
+
+  <!-- Testimonials -->
+  <section class="testimonials">
+    <div class="testimonials-header">
+      <p class="subtitle">LO QUE DICEN DE NOSOTROS</p>
+      <h2>Nuestros clientes confían en Booqi</h2>
+    </div>
+    <div class="testimonials-grid">
+      <div class="testimonial-card">
+        <div class="testimonial-stars">★★★★★</div>
+        <p>"La mejor plataforma para organizar mis talleres de yoga. La interfaz es intuitiva y el soporte técnico es excelente."</p>
+        <div class="testimonial-user">
+          <img src="https://images.pexels.com/photos/733872/pexels-photo-733872.jpeg?w=100" alt="Ana García" />
+          <div><span class="user-name">Ana García</span><span class="user-role">Instructora de Yoga</span></div>
+        </div>
+      </div>
+      <div class="testimonial-card">
+        <div class="testimonial-stars">★★★★★</div>
+        <p>"Comprar entradas nunca fue tan rápido. Recibo mis tickets al instante y el proceso de pago es muy seguro."</p>
+        <div class="testimonial-user">
+          <img src="https://i.pravatar.cc/150?u=marcos" alt="Marcos Ruiz" />
+          <div><span class="user-name">Marcos Ruiz</span><span class="user-role">Asistente frecuente</span></div>
+        </div>
+      </div>
+      <div class="testimonial-card">
+        <div class="testimonial-stars">★★★★★</div>
+        <p>"Gestionar el aforo de mi club se ha vuelto una tarea sencilla gracias a las herramientas de Booqi."</p>
+        <div class="testimonial-user">
+          <img src="https://images.pexels.com/photos/21370302/pexels-photo-21370302.jpeg?w=100" alt="Carlos Rodríguez" />
+          <div><span class="user-name">Carlos Rodríguez</span><span class="user-role">Manager de eventos</span></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Hashtag -->
+  <section class="hashtag-section">
+    <p>Comparte nuestros eventos con</p>
+    <h3>#BooqiEvents</h3>
+    <div class="hashtag-grid">
+      <div class="hashtag-img tall"><img src="https://images.unsplash.com/photo-1429962714451-bb934ecdc4ec?w=400&q=70" alt="" /></div>
+      <div class="hashtag-img"><img src="https://images.unsplash.com/photo-1493225457124-a3eb161ffa5f?w=400&q=70" alt="" /></div>
+      <div class="hashtag-img"><img src="https://images.unsplash.com/photo-1506157786151-b8491531f063?w=400&q=70" alt="" /></div>
+      <div class="hashtag-img"><img src="https://images.unsplash.com/photo-1540575467063-178a50c2df87?w=400&q=70" alt="" /></div>
+      <div class="hashtag-img"><img src="https://images.unsplash.com/photo-1511578314322-379afb476865?w=400&q=70" alt="" /></div>
+    </div>
+  </section>
+
+  <footer class="footer">
+    <span class="footer-logo">booqi</span>
+    <div class="footer-links">
+      <span onclick="showView('home')">Inicio</span>
+      <span onclick="showView('events')">Eventos</span>
+      <span onclick="showView('contact')">Contacto</span>
+    </div>
+    <span class="footer-copy">2026 booqi — Renzo Ramos & Melanie Cárdenas</span>
+  </footer>
+</div>
+
+<!-- ======================================================
+     VIEW: EVENTS
+     ====================================================== -->
+<div id="view-events" class="view">
+  <div class="spacer"></div>
+  <section class="ev-hero">
+    <div class="ev-hero-bg"></div>
+    <div class="ev-hero-content">
+      <h1>Eventos</h1>
+      <div class="breadcrumb"><span onclick="showView('home')">Inicio</span> › Eventos</div>
+    </div>
+  </section>
+
+  <div class="ev-toolbar">
+    <div class="cat-tabs" id="cat-tabs"></div>
+    <div class="toolbar-right">
+      <input class="search-input" id="search-input" placeholder="Buscar eventos..." oninput="filterEvents()" />
+      <span class="show-label" id="show-label">0 eventos</span>
+    </div>
+  </div>
+
+  <div class="ev-grid-wrap">
+    <div class="ev-grid" id="ev-grid"></div>
+  </div>
+
+  <footer class="footer">
+    <span class="footer-logo">booqi</span>
+    <div class="footer-links">
+      <span onclick="showView('home')">Inicio</span>
+      <span onclick="showView('events')">Eventos</span>
+      <span onclick="showView('contact')">Contacto</span>
+    </div>
+    <span class="footer-copy">2026 booqi — Renzo Ramos & Melanie Cárdenas</span>
+  </footer>
+</div>
+
+<!-- ======================================================
+     VIEW: EVENT DETAIL
+     ====================================================== -->
+<div id="view-detail" class="view">
+  <div class="spacer"></div>
+  <div class="detail-wrap" id="detail-content"></div>
+</div>
+
+<!-- ======================================================
+     VIEW: CART
+     ====================================================== -->
+<div id="view-cart" class="view">
+  <div class="spacer"></div>
+  <div class="cart-wrap">
+    <h2>🛒 Mi Carrito</h2>
+    <div id="cart-content"></div>
+  </div>
+</div>
+
+<!-- ======================================================
+     VIEW: CHECKOUT
+     ====================================================== -->
+<div id="view-checkout" class="view">
+  <div class="spacer"></div>
+  <div class="checkout-wrap" id="checkout-content"></div>
+</div>
+
+<!-- ======================================================
+     VIEW: LOGIN
+     ====================================================== -->
+<div id="view-login" class="view">
+  <div class="spacer"></div>
+  <div class="auth-wrap">
+    <div class="auth-card">
+      <div class="auth-logo">booqi</div>
+      <h2>Bienvenido de vuelta</h2>
+      <p class="auth-subtitle">Inicia sesión para gestionar tus reservas</p>
+      <div class="alert alert-error" id="login-error">❌ Credenciales incorrectas. Prueba con demo@booqi.com / demo123</div>
+      <div class="form-group">
+        <label class="form-label">Correo electrónico</label>
+        <input class="form-input" id="login-email" type="email" placeholder="tu@email.com" value="demo@booqi.com" />
+      </div>
+      <div class="form-group">
+        <label class="form-label">Contraseña</label>
+        <input class="form-input" id="login-pass" type="password" placeholder="••••••••" value="demo123" />
+      </div>
+      <button class="btn-solid" style="width:100%;padding:0.8rem;font-size:1rem;border-radius:8px;margin-top:0.5rem" onclick="doLogin()">Iniciar sesión</button>
+      <div class="divider">o</div>
+      <button class="social-btn" onclick="doLoginAdmin()">🔑 Entrar como Administrador (demo)</button>
+      <div class="auth-footer">¿No tienes cuenta? <span onclick="showView('register')">Regístrate gratis</span></div>
+    </div>
+  </div>
+</div>
+
+<!-- ======================================================
+     VIEW: REGISTER
+     ====================================================== -->
+<div id="view-register" class="view">
+  <div class="spacer"></div>
+  <div class="auth-wrap">
+    <div class="auth-card">
+      <div class="auth-logo">booqi</div>
+      <h2>Crear cuenta</h2>
+      <p class="auth-subtitle">Únete a miles de usuarios que ya usan Booqi</p>
+      <div class="form-row">
+        <div class="form-group">
+          <label class="form-label">Nombre</label>
+          <input class="form-input" id="reg-name" placeholder="Renzo" />
+        </div>
+        <div class="form-group">
+          <label class="form-label">Apellido</label>
+          <input class="form-input" id="reg-last" placeholder="Ramos" />
+        </div>
+      </div>
+      <div class="form-group">
+        <label class="form-label">Correo electrónico</label>
+        <input class="form-input" id="reg-email" type="email" placeholder="tu@email.com" />
+      </div>
+      <div class="form-group">
+        <label class="form-label">Contraseña</label>
+        <input class="form-input" id="reg-pass" type="password" placeholder="Mínimo 8 caracteres" />
+      </div>
+      <div class="form-group">
+        <label class="form-label">Confirmar contraseña</label>
+        <input class="form-input" id="reg-pass2" type="password" placeholder="••••••••" />
+      </div>
+      <button class="btn-solid" style="width:100%;padding:0.8rem;font-size:1rem;border-radius:8px;margin-top:0.5rem" onclick="doRegister()">Crear cuenta</button>
+      <div class="auth-footer">¿Ya tienes cuenta? <span onclick="showView('login')">Iniciar sesión</span></div>
+    </div>
+  </div>
+</div>
+
+<!-- ======================================================
+     VIEW: MY BOOKINGS
+     ====================================================== -->
+<div id="view-bookings" class="view">
+  <div class="spacer"></div>
+  <div class="bookings-wrap">
+    <h2>Mis Reservas</h2>
+    <p class="bookings-subtitle">Historial de todas tus reservas y entradas</p>
+    <div id="bookings-list"></div>
+  </div>
+</div>
+
+<!-- ======================================================
+     VIEW: ADMIN
+     ====================================================== -->
+<div id="view-admin" class="view">
+  <div class="spacer"></div>
+  <div class="admin-layout">
+    <aside class="admin-sidebar">
+      <h3>Principal</h3>
+      <div class="admin-nav-item active">📊 Dashboard</div>
+      <div class="admin-nav-item" onclick="showView('events')">🎟️ Ver Eventos</div>
+      <h3>Gestión</h3>
+      <div class="admin-nav-item">🎪 Crear Evento</div>
+      <div class="admin-nav-item">👥 Usuarios</div>
+      <div class="admin-nav-item">📦 Reservas</div>
+      <div class="admin-nav-item">💳 Pagos</div>
+      <h3>Sistema</h3>
+      <div class="admin-nav-item">⚙️ Configuración</div>
+      <div class="admin-nav-item" onclick="doLogout()" style="margin-top:2rem;color:#f87171">🚪 Cerrar sesión</div>
+    </aside>
+    <main class="admin-main">
+      <div class="admin-header">
+        <h1>Panel de Administración</h1>
+        <button class="btn-solid" onclick="showCreateEventModal()">+ Nuevo Evento</button>
+      </div>
+
+      <!-- Stats -->
+      <div class="stats-grid">
+        <div class="stat-card">
+          <div class="stat-icon">🎟️</div>
+          <div class="stat-value">1,247</div>
+          <div class="stat-label">Reservas totales</div>
+          <div class="stat-trend trend-up">↑ 12% este mes</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-icon">🎪</div>
+          <div class="stat-value">28</div>
+          <div class="stat-label">Eventos activos</div>
+          <div class="stat-trend trend-up">↑ 3 nuevos</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-icon">👥</div>
+          <div class="stat-value">4,821</div>
+          <div class="stat-label">Usuarios registrados</div>
+          <div class="stat-trend trend-up">↑ 8% este mes</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-icon">💰</div>
+          <div class="stat-value">38,450€</div>
+          <div class="stat-label">Ingresos del mes</div>
+          <div class="stat-trend trend-up">↑ 22% vs anterior</div>
+        </div>
+      </div>
+
+      <!-- Tabla de eventos -->
+      <div class="admin-table-wrap">
+        <div class="admin-table-header">
+          <h3>Eventos registrados</h3>
+          <span class="show-label">10 eventos</span>
+        </div>
+        <div style="overflow-x:auto">
+          <table id="admin-table"></table>
+        </div>
+      </div>
+    </main>
+  </div>
+</div>
+
+<!-- ======================================================
+     VIEW: CONTACT
+     ====================================================== -->
+<div id="view-contact" class="view">
+  <div class="spacer"></div>
+  <section class="ev-hero">
+    <div class="ev-hero-bg" style="background-image:url('https://images.unsplash.com/photo-1511578314322-379afb476865?w=1200&q=80')"></div>
+    <div class="ev-hero-content">
+      <h1>Contacto</h1>
+      <div class="breadcrumb"><span onclick="showView('home')">Inicio</span> › Contacto</div>
+    </div>
+  </section>
+  <div class="contact-wrap">
+    <h2>Ponte en contacto</h2>
+    <p class="contact-subtitle">¿Tienes alguna pregunta o sugerencia? Estamos aquí para ayudarte.</p>
+    <div class="contact-grid">
+      <div class="contact-info">
+        <div class="contact-info-item">
+          <div class="contact-info-icon">📍</div>
+          <div class="contact-info-text"><strong>Dirección</strong><span>Alcorcón, Madrid, España</span></div>
+        </div>
+        <div class="contact-info-item">
+          <div class="contact-info-icon">✉️</div>
+          <div class="contact-info-text"><strong>Email</strong><span>info@booqi.com</span></div>
+        </div>
+        <div class="contact-info-item">
+          <div class="contact-info-icon">📱</div>
+          <div class="contact-info-text"><strong>Teléfono</strong><span>+34 600 000 000</span></div>
+        </div>
+        <div class="contact-info-item">
+          <div class="contact-info-icon">🕐</div>
+          <div class="contact-info-text"><strong>Horario</strong><span>Lun–Vie, 9:00–18:00</span></div>
+        </div>
+      </div>
+      <div>
+        <div class="alert alert-success show" id="contact-success" style="display:none">✅ ¡Mensaje enviado! Te responderemos pronto.</div>
+        <div class="form-group">
+          <label class="form-label">Nombre completo</label>
+          <input class="form-input" id="contact-name" placeholder="Tu nombre" />
+        </div>
+        <div class="form-group">
+          <label class="form-label">Email</label>
+          <input class="form-input" type="email" id="contact-email" placeholder="tu@email.com" />
+        </div>
+        <div class="form-group">
+          <label class="form-label">Mensaje</label>
+          <textarea class="form-input" id="contact-msg" placeholder="Cuéntanos en qué podemos ayudarte..."></textarea>
+        </div>
+        <button class="btn-solid" style="width:100%;padding:0.8rem;font-size:1rem;border-radius:8px" onclick="doContact()">Enviar mensaje</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Toast notification -->
+<div id="toast"></div>
+
+<!-- Create Event Modal -->
+<div id="event-modal" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,0.5);z-index:10000;display:none;align-items:center;justify-content:center">
+  <div style="background:#fff;border-radius:16px;padding:2.5rem;width:100%;max-width:560px;max-height:90vh;overflow-y:auto">
+    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:1.5rem">
+      <h3 style="font-size:1.4rem;font-weight:700">Crear nuevo evento</h3>
+      <button onclick="hideModal()" style="background:none;font-size:1.5rem;cursor:pointer;color:#6b7280">✕</button>
+    </div>
+    <div class="form-group"><label class="form-label">Título del evento</label><input class="form-input" id="m-title" placeholder="Festival de Música..." /></div>
+    <div class="form-row">
+      <div class="form-group"><label class="form-label">Categoría</label>
+        <select class="form-input" id="m-cat"><option>Música</option><option>Arte</option><option>Deporte</option><option>Gastronomía</option><option>Tecnología</option><option>Educación</option></select>
+      </div>
+      <div class="form-group"><label class="form-label">Precio (€)</label><input class="form-input" id="m-price" type="number" placeholder="25" /></div>
+    </div>
+    <div class="form-row">
+      <div class="form-group"><label class="form-label">Fecha de inicio</label><input class="form-input" id="m-start" type="datetime-local" /></div>
+      <div class="form-group"><label class="form-label">Fecha de fin</label><input class="form-input" id="m-end" type="datetime-local" /></div>
+    </div>
+    <div class="form-group"><label class="form-label">Ubicación</label><input class="form-input" id="m-loc" placeholder="Teatro Gran Vía, Madrid" /></div>
+    <div class="form-group"><label class="form-label">Entradas disponibles</label><input class="form-input" id="m-tickets" type="number" placeholder="100" /></div>
+    <div class="form-group"><label class="form-label">URL de imagen</label><input class="form-input" id="m-img" placeholder="https://..." /></div>
+    <div class="form-group"><label class="form-label">Descripción</label><textarea class="form-input" id="m-desc" placeholder="Describe el evento..."></textarea></div>
+    <button class="btn-solid" style="width:100%;padding:0.8rem;font-size:1rem;border-radius:8px" onclick="doCreateEvent()">Crear Evento</button>
+  </div>
+</div>
+
+<script>
+// ── DATA ──────────────────────────────────────────────────────────────────────
+const EVENTS = [
+  { id:1, title:"Festival de Food Trucks", category:"Gastronomía", location:"Recinto Ferial, Alcorcón", startDate:"2026-06-15T12:00", price:0, tickets:200, img:"https://images.unsplash.com/photo-1555396273-367ea4eb4db5?w=600&q=80", desc:"El mayor festival de food trucks de la Comunidad de Madrid. Más de 50 camiones con cocina de todo el mundo, música en vivo y actividades para toda la familia. Entrada gratuita." },
+  { id:2, title:"Concierto de Jazz Clásico", category:"Música", location:"Club de Jazz Embajadores, Madrid", startDate:"2026-06-20T20:30", price:25, tickets:80, img:"https://images.unsplash.com/photo-1415201364774-f6f0bb35f28f?w=600&q=80", desc:"Una noche mágica con los mejores intérpretes de jazz clásico. Un espacio íntimo de 80 personas donde la música cobra vida. Incluye copa de bienvenida." },
+  { id:3, title:"Obra de Teatro: La Espera", category:"Arte", location:"Teatro Gran Vía, Madrid", startDate:"2026-07-01T20:00", price:35, tickets:150, img:"https://images.unsplash.com/photo-1503095396549-807759245b35?w=600&q=80", desc:"Una obra contemporánea que explora el tiempo, la memoria y las relaciones humanas. Premiada en el Festival de Teatro de Almagro. Duración: 105 minutos." },
+  { id:4, title:"Yoga al Aire Libre", category:"Deporte", location:"Parque Solidaridad, Fuenlabrada", startDate:"2026-06-22T09:00", price:10, tickets:30, img:"https://images.unsplash.com/photo-1544367567-0f2fcb009e0b?w=600&q=80", desc:"Sesión matinal de yoga en plena naturaleza. Apta para todos los niveles. Trae tu esterilla y ropa cómoda. El instructor guiará la sesión de forma personalizada." },
+  { id:5, title:"Workshop de Fotografía", category:"Arte", location:"Espacio Maker, Leganés", startDate:"2026-07-05T10:00", price:45, tickets:15, img:"https://images.unsplash.com/photo-1524178232363-1fb2b075b655?w=600&q=80", desc:"Aprende composición, iluminación y edición en un taller intensivo de 6 horas. Incluye material y almuerzo. Plazas muy limitadas. Nivel principiante-intermedio." },
+  { id:6, title:"Maratón Ciudad de Alcorcón", category:"Deporte", location:"Polideportivo Municipal, Alcorcón", startDate:"2026-09-12T07:00", price:20, tickets:500, img:"https://images.unsplash.com/photo-1461896836934-ffe607ba8211?w=600&q=80", desc:"Carrera popular de 10km y 21km por el casco urbano. Incluye camiseta, cronometraje chip y avituallamiento. Inscripción abierta hasta el 5 de septiembre." },
+  { id:7, title:"Cata de Vinos Premium", category:"Gastronomía", location:"Bodegas Arzuaga, Madrid", startDate:"2026-07-18T19:00", price:60, tickets:20, img:"https://images.unsplash.com/photo-1510812431401-41d2bd2722f3?w=600&q=80", desc:"Cata vertical de vinos de la Ribera del Duero con sommeliers certificados. Maridaje con quesos artesanales incluido. Máximo 20 personas para garantizar la calidad." },
+  { id:8, title:"Hackathon de IA 2026", category:"Tecnología", location:"Campus Google, Madrid", startDate:"2026-08-01T09:00", price:0, tickets:120, img:"https://images.unsplash.com/photo-1607082348824-0a96f2a4b9da?w=600&q=80", desc:"48 horas de innovación con inteligencia artificial. Premios de hasta 10.000€. Mentores de empresas líderes del sector. Teams de 3-5 personas. Comidas incluidas." },
+  { id:9, title:"Clases de Baile de Salón", category:"Arte", location:"Centro Cultural, Alcorcón", startDate:"2026-07-10T18:00", price:15, tickets:0, img:"https://images.unsplash.com/photo-1508700115892-45ecd05ae2ad?w=600&q=80", desc:"Aprende los pasos básicos de bachata, salsa y merengue con instructores profesionales. Clases para parejas y singles. El evento está agotado." },
+  { id:10, title:"Expo Arte Contemporáneo", category:"Arte", location:"Galería Mínima, Lavapiés", startDate:"2026-06-25T11:00", price:8, tickets:300, img:"https://images.unsplash.com/photo-1541961017774-22349e4a1262?w=600&q=80", desc:"Exposición de 40 artistas emergentes de Madrid. Pinturas, esculturas e instalaciones digitales. Visitas guiadas los sábados a las 12:00. Café incluido en la entrada." },
+];
+
+const BOOKINGS = [
+  { id:'BOQ-00142', event: EVENTS[1], qty:2, status:'confirmed', date:'2026-05-20', total:50 },
+  { id:'BOQ-00129', event: EVENTS[2], qty:1, status:'confirmed', date:'2026-05-15', total:35 },
+  { id:'BOQ-00097', event: EVENTS[7], qty:3, status:'pending',   date:'2026-05-10', total:0 },
+  { id:'BOQ-00061', event: EVENTS[6], qty:1, status:'confirmed', date:'2026-04-28', total:60 },
+  { id:'BOQ-00035', event: EVENTS[8], qty:2, status:'cancelled', date:'2026-04-10', total:30 },
+];
+
+const CATEGORIES = ['Todas','Música','Arte','Deporte','Gastronomía','Tecnología','Educación'];
+
+// ── STATE ─────────────────────────────────────────────────────────────────────
+let cart = [];
+let currentUser = null;
+let activeCategory = 'Todas';
+let currentDetailId = null;
+let detailQty = 1;
+
+// ── UTILS ─────────────────────────────────────────────────────────────────────
+function toast(msg, color = '#1a1a1a') {
+  const el = document.getElementById('toast');
+  el.textContent = msg;
+  el.style.background = color;
+  el.classList.add('show');
+  setTimeout(() => el.classList.remove('show'), 3000);
+}
+
+function fmtDate(d) {
+  return new Date(d).toLocaleDateString('es-ES', { day:'2-digit', month:'short', year:'numeric' });
+}
+function fmtPrice(p) { return p === 0 ? 'Gratis' : `${p}€`; }
+function updateCartBadge() {
+  document.getElementById('cart-badge').textContent = cart.reduce((a,i) => a + i.qty, 0);
+}
+
+// ── VIEWS ─────────────────────────────────────────────────────────────────────
+function showView(name, extra) {
+  document.querySelectorAll('.view').forEach(v => v.classList.remove('active'));
+  document.getElementById('view-' + name).classList.add('active');
+  window.scrollTo(0, 0);
+
+  if (name === 'events') renderEvents();
+  if (name === 'cart') renderCart();
+  if (name === 'bookings') renderBookings();
+  if (name === 'admin') renderAdmin();
+  if (name === 'detail' && extra) showDetail(extra);
+  if (name === 'checkout') renderCheckout();
+}
+
+// ── HOME ──────────────────────────────────────────────────────────────────────
+(function initFeatured() {
+  const container = document.getElementById('featured-slider');
+  EVENTS.slice(0,5).forEach(ev => {
+    const card = document.createElement('div');
+    card.className = 'featured-card';
+    card.innerHTML = `
+      <img src="${ev.img}" alt="${ev.title}" />
+      <div class="featured-card-info">
+        <div class="featured-card-date">${fmtDate(ev.startDate)} — ${ev.location.split(',')[0]}</div>
+        <div class="featured-card-title">${ev.title}</div>
+      </div>`;
+    card.onclick = () => { currentDetailId = ev.id; showView('detail', ev.id); };
+    container.appendChild(card);
+  });
+})();
+
+// ── EVENTS ────────────────────────────────────────────────────────────────────
+function renderEvents() {
+  // Render category tabs
+  const tabs = document.getElementById('cat-tabs');
+  tabs.innerHTML = '';
+  CATEGORIES.forEach(cat => {
+    const btn = document.createElement('button');
+    btn.className = 'cat-tab' + (cat === activeCategory ? ' active' : '');
+    btn.textContent = cat;
+    btn.onclick = () => { activeCategory = cat; renderEvents(); };
+    tabs.appendChild(btn);
+  });
+
+  const search = document.getElementById('search-input').value.toLowerCase();
+  let filtered = EVENTS.filter(ev => {
+    const matchCat = activeCategory === 'Todas' || ev.category === activeCategory;
+    const matchSearch = !search || ev.title.toLowerCase().includes(search) || ev.location.toLowerCase().includes(search);
+    return matchCat && matchSearch;
+  });
+
+  document.getElementById('show-label').textContent = `${filtered.length} evento${filtered.length !== 1 ? 's' : ''}`;
+
+  const grid = document.getElementById('ev-grid');
+  grid.innerHTML = '';
+
+  if (!filtered.length) {
+    grid.innerHTML = '<div style="grid-column:1/-1;text-align:center;padding:4rem;color:#6b7280"><h3>No hay eventos</h3><p>Prueba con otra categoría o búsqueda</p></div>';
+    return;
+  }
+
+  filtered.forEach((ev, i) => {
+    const soldOut = ev.tickets === 0;
+    const lowStock = ev.tickets > 0 && ev.tickets <= 20;
+    const inCart = cart.some(c => c.event.id === ev.id);
+    const card = document.createElement('div');
+    card.className = 'ev-card' + (soldOut ? ' sold-out' : '');
+    card.innerHTML = `
+      <div class="ev-card-img">
+        <img src="${ev.img}" alt="${ev.title}" />
+        ${soldOut ? '<span class="ev-badge badge-soldout">AGOTADO</span>' : lowStock ? '<span class="ev-badge badge-low">ÚLTIMAS</span>' : i < 3 ? '<span class="ev-badge badge-new">New</span>' : ''}
+      </div>
+      <div class="ev-card-body">
+        <div class="ev-card-title">${ev.title}</div>
+        <div class="ev-card-location">📍 ${ev.location}</div>
+        <div class="ev-card-meta">📅 ${fmtDate(ev.startDate)}</div>
+        <div class="ev-card-footer">
+          <div>
+            <span class="stock-text">${soldOut ? 'Sin entradas' : ev.tickets + ' disponibles'}</span>
+            <span class="ev-card-price">${fmtPrice(ev.price)}</span>
+          </div>
+          <button class="ev-add-btn ${inCart ? 'added' : soldOut ? 'disabled' : ''}"
+            data-id="${ev.id}">
+            ${soldOut ? 'Agotado' : inCart ? '✓ Añadido' : '+ Carrito'}
+          </button>
+        </div>
+      </div>`;
+    card.querySelector('.ev-card-img').onclick = () => { currentDetailId = ev.id; showView('detail', ev.id); };
+    card.querySelector('.ev-card-title').onclick = () => { currentDetailId = ev.id; showView('detail', ev.id); };
+    const addBtn = card.querySelector('.ev-add-btn');
+    if (!soldOut && !inCart) {
+      addBtn.onclick = (e) => { e.stopPropagation(); addToCart(ev); };
+    }
+    grid.appendChild(card);
+  });
+}
+
+function filterEvents() { renderEvents(); }
+
+// ── DETAIL ────────────────────────────────────────────────────────────────────
+function showDetail(id) {
+  const ev = EVENTS.find(e => e.id === id);
+  if (!ev) return;
+  detailQty = 1;
+  const soldOut = ev.tickets === 0;
+  const inCart = cart.some(c => c.event.id === ev.id);
+  document.getElementById('detail-content').innerHTML = `
+    <div>
+      <div class="detail-img"><img src="${ev.img}" alt="${ev.title}" /></div>
+      <br/>
+      <div class="detail-cat">${ev.category}</div>
+      <div class="detail-title">${ev.title}</div>
+      <div class="detail-meta">
+        <div class="detail-meta-row">📅 <strong>${fmtDate(ev.startDate)}</strong></div>
+        <div class="detail-meta-row">📍 <strong>${ev.location}</strong></div>
+        <div class="detail-meta-row">🎟️ <strong>${soldOut ? 'Agotado' : ev.tickets + ' entradas disponibles'}</strong></div>
+        <div class="detail-meta-row">💰 <strong>${fmtPrice(ev.price)}</strong></div>
+      </div>
+      <div class="detail-description">${ev.desc}</div>
+      <span class="link-purple" onclick="showView('events')">← Volver a Eventos</span>
+    </div>
+    <div class="detail-sidebar">
+      <div class="sidebar-price">${fmtPrice(ev.price)}</div>
+      <div class="sidebar-stock">${soldOut ? '⚠️ Sin entradas disponibles' : '✅ ' + ev.tickets + ' entradas disponibles'}</div>
+      ${!soldOut ? `
+      <div class="qty-control">
+        <button class="qty-btn" onclick="changeQty(-1)">−</button>
+        <span class="qty-val" id="qty-val">1</span>
+        <button class="qty-btn" onclick="changeQty(1)">+</button>
+      </div>
+      <div style="margin-bottom:0.75rem;font-weight:600">Subtotal: <span id="detail-subtotal">${ev.price === 0 ? 'Gratis' : ev.price + '€'}</span></div>
+      ` : ''}
+      <button id="detail-add-btn" class="btn-add-cart ${inCart ? 'btn-added' : ''} ${soldOut ? 'btn-disabled' : ''}"
+        onclick="${soldOut ? '' : 'addToCartDetail(' + ev.id + ')'}"
+        style="${soldOut ? 'background:#9ca3af;cursor:not-allowed' : ''}">
+        ${soldOut ? 'Sin entradas' : inCart ? '✓ En el carrito' : '🛒 Añadir al carrito'}
+      </button>
+      ${inCart ? '<button class="btn-solid" style="width:100%;padding:0.7rem;border-radius:8px" onclick="showView(\'cart\')">Ver carrito →</button>' : ''}
+    </div>`;
+}
+
+function changeQty(delta) {
+  const ev = EVENTS.find(e => e.id === currentDetailId);
+  if (!ev) return;
+  detailQty = Math.max(1, Math.min(detailQty + delta, ev.tickets));
+  document.getElementById('qty-val').textContent = detailQty;
+  document.getElementById('detail-subtotal').textContent = ev.price === 0 ? 'Gratis' : (ev.price * detailQty) + '€';
+}
+
+function addToCartDetail(id) {
+  const ev = EVENTS.find(e => e.id === id);
+  if (!ev) return;
+  if (!currentUser) { showView('login'); return; }
+  addToCart(ev, detailQty);
+  showDetail(id);
+}
+
+// ── CART ──────────────────────────────────────────────────────────────────────
+function addToCart(ev, qty = 1) {
+  if (!currentUser) { showView('login'); return; }
+  const existing = cart.find(c => c.event.id === ev.id);
+  if (existing) {
+    existing.qty += qty;
+  } else {
+    cart.push({ event: ev, qty });
+  }
+  updateCartBadge();
+  toast(`✅ "${ev.title}" añadido al carrito`, '#16a34a');
+}
+
+function removeFromCart(id) {
+  cart = cart.filter(c => c.event.id !== id);
+  updateCartBadge();
+  renderCart();
+}
+
+function renderCart() {
+  const content = document.getElementById('cart-content');
+  if (!cart.length) {
+    content.innerHTML = `<div class="cart-empty"><div class="big-icon">🛒</div><h3>Tu carrito está vacío</h3><p>Explora nuestros eventos y añade los que te interesen</p><br/><button class="btn-solid" style="padding:0.8rem 2rem;border-radius:8px" onclick="showView('events')">Ver Eventos</button></div>`;
+    return;
+  }
+  const total = cart.reduce((a, i) => a + i.event.price * i.qty, 0);
+  content.innerHTML = `
+    <div class="cart-items">
+      ${cart.map(item => `
+        <div class="cart-item">
+          <img class="cart-item-img" src="${item.event.img}" alt="${item.event.title}" />
+          <div class="cart-item-body">
+            <div class="cart-item-title">${item.event.title}</div>
+            <div class="cart-item-meta">📍 ${item.event.location} &nbsp;·&nbsp; 📅 ${fmtDate(item.event.startDate)}</div>
+            <div class="cart-item-meta">Cantidad: <strong>${item.qty}</strong></div>
+          </div>
+          <div class="cart-item-price">${item.event.price === 0 ? 'Gratis' : (item.event.price * item.qty) + '€'}</div>
+          <span class="cart-item-remove" onclick="removeFromCart(${item.event.id})" title="Eliminar">✕</span>
+        </div>`).join('')}
+    </div>
+    <div class="cart-summary">
+      <div>
+        <div class="cart-total">Total: <span>${total === 0 ? 'Gratis' : total + '€'}</span></div>
+        <div style="font-size:0.85rem;color:#6b7280;margin-top:0.25rem">${cart.reduce((a,i)=>a+i.qty,0)} entrada(s)</div>
+      </div>
+      <button class="btn-solid" style="padding:0.9rem 2rem;border-radius:10px;font-size:1rem" onclick="showView('checkout')">Proceder al pago →</button>
+    </div>`;
+}
+
+// ── CHECKOUT ──────────────────────────────────────────────────────────────────
+function renderCheckout() {
+  const content = document.getElementById('checkout-content');
+  const total = cart.reduce((a, i) => a + i.event.price * i.qty, 0);
+  content.innerHTML = `
+    <h2>Finalizar compra</h2>
+    <div class="order-summary">
+      <h3>Resumen del pedido</h3>
+      ${cart.map(i => `<div class="order-row"><span>${i.event.title} × ${i.qty}</span><span>${i.event.price === 0 ? 'Gratis' : (i.event.price * i.qty) + '€'}</span></div>`).join('')}
+      <div class="order-row total"><span>Total</span><span>${total === 0 ? 'Gratis' : total + '€'}</span></div>
+    </div>
+    <div class="form-section">
+      <h3>Datos del comprador</h3>
+      <div class="form-row">
+        <div class="form-group"><label class="form-label">Nombre</label><input class="form-input" value="${currentUser?.name || ''}" /></div>
+        <div class="form-group"><label class="form-label">Apellido</label><input class="form-input" value="${currentUser?.lastName || ''}" /></div>
+      </div>
+      <div class="form-group"><label class="form-label">Email</label><input class="form-input" type="email" value="${currentUser?.email || ''}" /></div>
+    </div>
+    <div class="form-section">
+      <h3>💳 Método de pago</h3>
+      <div class="form-group"><label class="form-label">Número de tarjeta</label><input class="form-input" placeholder="4242 4242 4242 4242" maxlength="19" /></div>
+      <div class="form-row">
+        <div class="form-group"><label class="form-label">Caducidad</label><input class="form-input" placeholder="MM/AA" maxlength="5" /></div>
+        <div class="form-group"><label class="form-label">CVV</label><input class="form-input" placeholder="123" maxlength="3" type="password" /></div>
+      </div>
+    </div>
+    <button class="btn-solid" style="width:100%;padding:0.9rem;font-size:1rem;border-radius:10px" onclick="doCheckout()">Confirmar y pagar ${total === 0 ? '' : total + '€'}</button>`;
+}
+
+function doCheckout() {
+  const content = document.getElementById('checkout-content');
+  const evNames = cart.map(i => i.event.title).join(', ');
+  cart = [];
+  updateCartBadge();
+  content.innerHTML = `
+    <div class="success-msg">
+      <div class="success-icon">🎉</div>
+      <h2>¡Reserva confirmada!</h2>
+      <p>Tus entradas para <strong>${evNames}</strong> han sido reservadas.</p>
+      <p style="margin-top:0.5rem">Se ha enviado un email de confirmación con tus tickets en PDF.</p>
+      <br/>
+      <button class="btn-solid" style="padding:0.8rem 2rem;border-radius:8px" onclick="showView('bookings')">Ver mis reservas</button>
+      &nbsp;
+      <button class="btn-outline" style="padding:0.8rem 2rem;border-radius:8px" onclick="showView('events')">Seguir explorando</button>
+    </div>`;
+}
+
+// ── BOOKINGS ──────────────────────────────────────────────────────────────────
+function renderBookings() {
+  if (!currentUser) { showView('login'); return; }
+  const list = document.getElementById('bookings-list');
+  const statusMap = { confirmed:'status-confirmed', pending:'status-pending', cancelled:'status-cancelled' };
+  const statusLabel = { confirmed:'✅ Confirmada', pending:'⏳ Pendiente', cancelled:'❌ Cancelada' };
+  list.innerHTML = BOOKINGS.map(b => `
+    <div class="booking-card">
+      <img class="booking-card-img" src="${b.event.img}" alt="${b.event.title}" />
+      <div>
+        <div class="booking-title">${b.event.title}</div>
+        <div class="booking-meta">
+          📍 ${b.event.location}<br/>
+          📅 ${fmtDate(b.event.startDate)}<br/>
+          🎟️ ${b.qty} entrada(s) &nbsp;·&nbsp; Ref: <strong>${b.id}</strong><br/>
+          🗓️ Reservado el ${b.date}
+        </div>
+        <div class="booking-total">${b.total === 0 ? 'Gratis' : b.total + '€'}</div>
+      </div>
+      <span class="booking-status ${statusMap[b.status]}">${statusLabel[b.status]}</span>
+    </div>`).join('');
+}
+
+// ── ADMIN ─────────────────────────────────────────────────────────────────────
+function renderAdmin() {
+  if (!currentUser?.admin) { showView('login'); return; }
+  const table = document.getElementById('admin-table');
+  table.innerHTML = `
+    <thead><tr>
+      <th></th><th>Evento</th><th>Categoría</th><th>Fecha</th><th>Precio</th><th>Entradas</th><th>Estado</th><th>Acciones</th>
+    </tr></thead>
+    <tbody>
+      ${EVENTS.map(ev => `<tr>
+        <td><img class="table-img" src="${ev.img}" /></td>
+        <td><strong>${ev.title}</strong><br/><small style="color:#6b7280">${ev.location}</small></td>
+        <td>${ev.category}</td>
+        <td>${fmtDate(ev.startDate)}</td>
+        <td>${fmtPrice(ev.price)}</td>
+        <td>${ev.tickets === 0 ? '<span style="color:#dc2626;font-weight:600">Agotado</span>' : ev.tickets}</td>
+        <td><span class="booking-status ${ev.tickets === 0 ? 'status-cancelled' : 'status-confirmed'}">${ev.tickets === 0 ? 'Agotado' : 'Activo'}</span></td>
+        <td><div class="table-actions">
+          <button class="btn-icon btn-edit">✏️ Editar</button>
+          <button class="btn-icon btn-delete" onclick="toast('⚠️ Función solo en entorno real', '#f59e0b')">🗑️</button>
+        </div></td>
+      </tr>`).join('')}
+    </tbody>`;
+}
+
+function showCreateEventModal() {
+  document.getElementById('event-modal').style.display = 'flex';
+}
+function hideModal() {
+  document.getElementById('event-modal').style.display = 'none';
+}
+function doCreateEvent() {
+  const title = document.getElementById('m-title').value.trim();
+  if (!title) { toast('⚠️ Escribe un título para el evento', '#f59e0b'); return; }
+  toast('✅ Evento "' + title + '" creado (demo)', '#16a34a');
+  hideModal();
+}
+
+// ── AUTH ──────────────────────────────────────────────────────────────────────
+function doLogin() {
+  const email = document.getElementById('login-email').value.trim();
+  const pass = document.getElementById('login-pass').value;
+  if ((email === 'demo@booqi.com' && pass === 'demo123') || (email && pass.length >= 4)) {
+    currentUser = { name:'Renzo', lastName:'Ramos', email, admin: false };
+    updateAuthUI();
+    showView('events');
+    toast('👋 Bienvenido, ' + currentUser.name + '!', '#16a34a');
+  } else {
+    document.getElementById('login-error').classList.add('show');
+  }
+}
+
+function doLoginAdmin() {
+  currentUser = { name:'Admin', lastName:'Booqi', email:'admin@booqi.com', admin: true };
+  updateAuthUI();
+  showView('admin');
+  toast('🔑 Bienvenido, Administrador', '#6d28d9');
+}
+
+function doRegister() {
+  const name = document.getElementById('reg-name').value.trim();
+  const email = document.getElementById('reg-email').value.trim();
+  const pass = document.getElementById('reg-pass').value;
+  const pass2 = document.getElementById('reg-pass2').value;
+  if (!name || !email) { toast('⚠️ Completa los campos obligatorios', '#f59e0b'); return; }
+  if (pass !== pass2) { toast('⚠️ Las contraseñas no coinciden', '#f59e0b'); return; }
+  currentUser = { name, lastName: document.getElementById('reg-last').value, email, admin: false };
+  updateAuthUI();
+  showView('events');
+  toast('🎉 ¡Cuenta creada! Bienvenido/a, ' + name, '#16a34a');
+}
+
+function doLogout() {
+  currentUser = null;
+  cart = [];
+  updateCartBadge();
+  updateAuthUI();
+  showView('home');
+  toast('👋 Sesión cerrada', '#6d28d9');
+}
+
+function updateAuthUI() {
+  const authDiv = document.getElementById('nav-auth');
+  const userDiv = document.getElementById('nav-user');
+  const adminLink = document.getElementById('nav-admin-link');
+  if (currentUser) {
+    authDiv.style.display = 'none';
+    userDiv.style.display = 'block';
+    document.getElementById('user-name-nav').textContent = currentUser.name;
+    adminLink.style.display = currentUser.admin ? 'inline' : 'none';
+  } else {
+    authDiv.style.display = 'flex';
+    userDiv.style.display = 'none';
+    adminLink.style.display = 'none';
+  }
+}
+
+// ── CONTACT ───────────────────────────────────────────────────────────────────
+function doContact() {
+  const name = document.getElementById('contact-name').value.trim();
+  const email = document.getElementById('contact-email').value.trim();
+  const msg = document.getElementById('contact-msg').value.trim();
+  if (!name || !email || !msg) { toast('⚠️ Completa todos los campos', '#f59e0b'); return; }
+  toast('✅ Mensaje enviado correctamente', '#16a34a');
+  document.getElementById('contact-name').value = '';
+  document.getElementById('contact-email').value = '';
+  document.getElementById('contact-msg').value = '';
+}
+
+// Close modal on outside click
+document.getElementById('event-modal').addEventListener('click', function(e) {
+  if (e.target === this) hideModal();
+});
+
+// Keyboard ESC closes modal
+document.addEventListener('keydown', e => { if (e.key === 'Escape') hideModal(); });
+</script>
+</body>
+</html>
