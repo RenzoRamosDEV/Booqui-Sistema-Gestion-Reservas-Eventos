@@ -17,7 +17,7 @@ const S = {
   actions: { display: 'flex', alignItems: 'center', gap: '0.75rem', flexShrink: 0 },
 }
 
-export default function Navbar({ hideAnnouncement = false }) {
+export default function Navbar({ hideAnnouncement = false, hideLinks = false }) {
   const [scrolled, setScrolled] = useState(false)
   const { user, logout } = useAuth()
   const { cart } = useCart()
@@ -47,12 +47,14 @@ export default function Navbar({ hideAnnouncement = false }) {
           <span className="nav-logo-text">booqi</span>
         </Link>
 
-        <div className="nav-links" style={S.links}>
-          <Link to="/">Inicio</Link>
-          <Link to="/events">Eventos</Link>
-          <Link to="/contact">Contacto</Link>
-          {user?.role === 'ADMIN' && <Link to="/admin">Panel Admin</Link>}
-        </div>
+        {!hideLinks && (
+          <div className="nav-links" style={S.links}>
+            <Link to="/">Inicio</Link>
+            <Link to="/events">Eventos</Link>
+            <Link to="/contact">Contacto</Link>
+            {user?.role === 'ADMIN' && <Link to="/admin">Panel Admin</Link>}
+          </div>
+        )}
 
         <div className="nav-actions" style={S.actions}>
           {user ? (
