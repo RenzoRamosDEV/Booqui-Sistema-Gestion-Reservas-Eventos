@@ -1,6 +1,7 @@
 import { HashRouter as Router, Routes, Route } from 'react-router-dom'
 import { AuthProvider } from './context/AuthContext'
 import { CartProvider } from './context/CartContext'
+import ProtectedRoute from './components/ProtectedRoute'
 import Home from './pages/Home/Home'
 import Events from './pages/Events/Events'
 import EventDetail from './pages/Events/EventDetail'
@@ -25,10 +26,17 @@ function App() {
             <Route path="/checkout" element={<Checkout />} />
             <Route path="/login" element={<Login />} />
             <Route path="/register" element={<Register />} />
-            {/* estas dos faltaban — por eso daba el warning de no routes matched */}
-            <Route path="/admin" element={<Admin />} />
             <Route path="/contact" element={<Contact />} />
-            <Route path="/my-bookings" element={<MyBookings />} />
+            <Route path="/my-bookings" element={
+              <ProtectedRoute>
+                <MyBookings />
+              </ProtectedRoute>
+            } />
+            <Route path="/admin" element={
+              <ProtectedRoute requireAdmin>
+                <Admin />
+              </ProtectedRoute>
+            } />
           </Routes>
         </Router>
       </CartProvider>
