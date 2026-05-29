@@ -45,7 +45,7 @@
   /* hero igual que en eventos */
   .contact-hero {
     position: relative;
-    height: 280px;
+    height: 240px;
     background-image: url('https://images.unsplash.com/photo-1467810563316-b5476525c0f9?w=1400&q=80');
     background-size: cover;
     background-position: center 40%;
