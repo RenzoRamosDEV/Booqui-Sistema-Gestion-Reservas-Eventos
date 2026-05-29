@@ -32,40 +32,45 @@ export default function Navbar() {
   const cartCount = cart?.reduce((s, i) => s + (i.qty || 1), 0) || 0
 
   return (
-    <nav
-      id="booqi-navbar"
-      className={`nav-root${scrolled ? ' scrolled' : ''}`}
-      style={scrolled ? { ...S.nav, boxShadow: '0 2px 20px rgba(0,0,0,0.08)' } : S.nav}
-    >
-      <Link to="/" className="nav-logo" style={S.logo}>
-        <img src={logo} alt="booqi" className="nav-logo-img" />
-        <span className="nav-logo-text">booqi</span>
-      </Link>
-
-      <div className="nav-links" style={S.links}>
-        <Link to="/">Inicio</Link>
-        <Link to="/events">Eventos</Link>
-        <Link to="/contact">Contacto</Link>
-        {user?.role === 'ADMIN' && <Link to="/admin">Panel Admin</Link>}
+    <header id="booqi-header">
+      <div className="announcement-bar">
+        Esta web es una demo visual del proyecto BOOQI — Hecha por Renzo y Melanie
       </div>
+      <nav
+        id="booqi-navbar"
+        className={`nav-root${scrolled ? ' scrolled' : ''}`}
+        style={scrolled ? { ...S.nav, boxShadow: '0 2px 20px rgba(0,0,0,0.08)' } : S.nav}
+      >
+        <Link to="/" className="nav-logo" style={S.logo}>
+          <img src={logo} alt="booqi" className="nav-logo-img" />
+          <span className="nav-logo-text">booqi</span>
+        </Link>
 
-      <div className="nav-actions" style={S.actions}>
-        {user ? (
-          <>
-            <span className="nav-hello">Hola, {user.firstName}</span>
-            <Link to="/my-bookings" className="nav-btn nav-btn-ghost">🎫 Mis reservas</Link>
-            <Link to="/cart" className="nav-btn nav-btn-ghost">
-              🛒 {cartCount > 0 && <span className="nav-cart-badge">{cartCount}</span>}
-            </Link>
-            <button className="nav-btn nav-btn-ghost" onClick={logout}>Salir</button>
-          </>
-        ) : (
-          <>
-            <Link to="/login" className="nav-btn nav-btn-ghost">Iniciar sesión</Link>
-            <Link to="/register" className="nav-btn nav-btn-solid">Registrarse</Link>
-          </>
-        )}
-      </div>
-    </nav>
+        <div className="nav-links" style={S.links}>
+          <Link to="/">Inicio</Link>
+          <Link to="/events">Eventos</Link>
+          <Link to="/contact">Contacto</Link>
+          {user?.role === 'ADMIN' && <Link to="/admin">Panel Admin</Link>}
+        </div>
+
+        <div className="nav-actions" style={S.actions}>
+          {user ? (
+            <>
+              <span className="nav-hello">Hola, {user.firstName}</span>
+              <Link to="/my-bookings" className="nav-btn nav-btn-ghost">🎫 Mis reservas</Link>
+              <Link to="/cart" className="nav-btn nav-btn-ghost">
+                🛒 {cartCount > 0 && <span className="nav-cart-badge">{cartCount}</span>}
+              </Link>
+              <button className="nav-btn nav-btn-ghost" onClick={logout}>Salir</button>
+            </>
+          ) : (
+            <>
+              <Link to="/login" className="nav-btn nav-btn-ghost">Iniciar sesión</Link>
+              <Link to="/register" className="nav-btn nav-btn-solid">Registrarse</Link>
+            </>
+          )}
+        </div>
+      </nav>
+    </header>
   )
 }
