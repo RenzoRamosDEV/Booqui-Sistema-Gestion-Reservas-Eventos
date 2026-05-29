@@ -9,9 +9,9 @@
 
 /* sidebar claro — ya no es oscuro, encaja con el navbar blanco */
 .adm-sidebar {
-  width: 220px; background: #ffffff; min-height: calc(100vh - 96px);
+  width: 220px; background: #ffffff; min-height: 100vh;
   display: flex; flex-direction: column; padding: 1.5rem 0;
-  position: fixed; top: 96px; left: 0; bottom: 0; z-index: 50;
+  position: fixed; top: 0; left: 0; bottom: 0; z-index: 50;
   border-right: 1px solid #f0f0f0;
 }
 
@@ -50,8 +50,8 @@
 }
 .adm-logout-btn:hover { background: #fee2e2; }
 
-/* contenido principal desplazado para dejar sitio al sidebar y al header fijo */
-.adm-main { margin-left: 220px; margin-top: 96px; flex: 1; padding: 2rem 2.5rem; }
+/* contenido principal desplazado para dejar sitio al sidebar */
+.adm-main { margin-left: 220px; flex: 1; padding: 2rem 2.5rem; }
 
 /* topbar con título y usuario conectado */
 .adm-topbar { display: flex; align-items: center; justify-content: space-between; margin-bottom: 2rem; }

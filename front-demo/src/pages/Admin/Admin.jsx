@@ -267,7 +267,7 @@ export default function Admin() {
 
   return (
     <div className="adm-root">
-      <Navbar />
+      {/* Navbar quitado - el admin usa su propio sidebar de navegación */}
 
       <PDFPreviewModal
         isOpen={previewModalOpen}
