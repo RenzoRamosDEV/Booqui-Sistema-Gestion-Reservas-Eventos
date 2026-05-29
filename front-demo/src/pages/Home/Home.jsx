@@ -152,21 +152,30 @@ export default function Home() {
         <p className="subtitle">EQUIPO</p>
         <h2>Conoce a los desarrolladores</h2>
         <div className="home-developers-grid">
-          <a
-            href="https://www.linkedin.com/in/renzoinv04/"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="home-developer-card"
-          >
+          <div className="home-developer-card">
             <div className="home-developer-avatar">
               <span>RR</span>
             </div>
             <h3>Renzo Ramos</h3>
-            <p>Full Stack Developer</p>
-            <span className="home-developer-link">
-              <i className="bi bi-linkedin"></i> LinkedIn
-            </span>
-          </a>
+            <div className="home-developer-links">
+              <a
+                href="https://www.linkedin.com/in/renzoinv04/"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="home-developer-link"
+              >
+                <i className="bi bi-linkedin"></i> LinkedIn
+              </a>
+              <a
+                href="https://github.com/RenzoRamosDEV"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="home-developer-link"
+              >
+                <i className="bi bi-github"></i> GitHub
+              </a>
+            </div>
+          </div>
 
           <a
             href="https://www.linkedin.com/in/melanie-gabriela-cardenas-hidalgo-4b670a234/"
@@ -178,7 +187,6 @@ export default function Home() {
               <span>MC</span>
             </div>
             <h3>Melanie Gabriela</h3>
-            <p>Full Stack Developer</p>
             <span className="home-developer-link">
               <i className="bi bi-linkedin"></i> LinkedIn
             </span>
