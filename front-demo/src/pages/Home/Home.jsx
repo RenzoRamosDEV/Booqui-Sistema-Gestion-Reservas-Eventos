@@ -15,9 +15,14 @@ const FEATURED_IMAGES = [
 const HASHTAG_IMAGES = [
   { src: MOCK_EVENTS[0].urlImage, tall: true },
   { src: MOCK_EVENTS[4].urlImage },
+  { src: MOCK_EVENTS[9].urlImage, wide: true },
   { src: MOCK_EVENTS[7].urlImage },
+  { src: MOCK_EVENTS[5].urlImage },
   { src: MOCK_EVENTS[11].urlImage },
+  { src: MOCK_EVENTS[3].urlImage, tall: true },
   { src: MOCK_EVENTS[13].urlImage },
+  { src: MOCK_EVENTS[15].urlImage },
+  { src: MOCK_EVENTS[17].urlImage },
 ]
 
 export default function Home() {
@@ -135,7 +140,7 @@ export default function Home() {
         <h3>#BooqiEvents</h3>
         <div className="home-hashtag-grid">
           {HASHTAG_IMAGES.map((img, i) => (
-            <div key={i} className={`home-hashtag-img${img.tall ? ' tall' : ''}`}>
+            <div key={i} className={`home-hashtag-img${img.tall ? ' tall' : ''}${img.wide ? ' wide' : ''}`}>
               <img src={img.src} alt="" />
             </div>
           ))}
