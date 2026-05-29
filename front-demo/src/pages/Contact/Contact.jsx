@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import { Link } from 'react-router-dom'
 import Navbar from '../../components/Navbar/Navbar'
+import contactImage from '../../assets/contacto.jpg'
 import './ContactStyle.css'
 
 const CONFETTI_COLORS = ['#7c3aed','#a78bfa','#4a1a6b','#f0abfc','#fbbf24','#34d399','#60a5fa']
@@ -96,7 +97,7 @@ export default function Contact() {
         <div className="contact-image-wrapper">
           <img
             className="contact-image"
-            src="https://images.unsplash.com/photo-1529156069898-49953e39b3ac?w=800&q=80"
+            src={contactImage}
             alt="Grupo de amigos"
           />
         </div>
