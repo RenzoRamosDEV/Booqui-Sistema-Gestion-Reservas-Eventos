@@ -1,8 +1,12 @@
 pages:
   stage: deploy
+  image: node:20
   script:
-    - mkdir -p public
-    - cp demo/index.html public/index.html
+    - cd front-demo
+    - npm ci
+    - npm run build
+    - mkdir -p ../public
+    - cp -r dist/* ../public/
   artifacts:
     paths:
       - public
