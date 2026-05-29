@@ -5,6 +5,7 @@
 .adm-root {
   font-family: 'DM Sans', sans-serif; color: #1a1a1a;
   background: #fafaf9; min-height: 100vh; display: flex;
+  padding-top: 96px;
 }
 
 /* sidebar claro — ya no es oscuro, encaja con el navbar blanco */
