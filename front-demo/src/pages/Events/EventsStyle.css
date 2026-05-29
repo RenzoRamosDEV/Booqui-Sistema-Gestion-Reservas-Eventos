@@ -35,7 +35,7 @@
 
 /* HERO BANNER */
 .ev-hero {
-  margin-top: 96px; position: relative; height: 240px;
+  margin-top: 68px; position: relative; height: 240px;
   display: flex; align-items: center; justify-content: center;
   overflow: hidden;
 }
