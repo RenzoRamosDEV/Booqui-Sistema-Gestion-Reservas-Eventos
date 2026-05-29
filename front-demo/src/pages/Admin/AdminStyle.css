@@ -4,13 +4,13 @@
 .adm-root {
   font-family: 'DM Sans', sans-serif; color: #1a1a1a;
   background: #fafaf9; min-height: 100vh; display: flex;
-  padding-top: var(--header-h, 96px); /* ← usa variable */
+  padding-top: 68px;
 }
 
 .adm-sidebar {
-  width: 220px; background: #ffffff; min-height: calc(100vh - var(--header-h, 96px));
+  width: 220px; background: #ffffff; min-height: calc(100vh - 68px);
   display: flex; flex-direction: column; padding: 1.5rem 0;
-  position: fixed; top: var(--header-h, 96px); /* ← usa variable */
+  position: fixed; top: 68px;
   left: 0; bottom: 0; z-index: 50;
   border-right: 1px solid #f0f0f0;
 }
