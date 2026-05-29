@@ -427,6 +427,8 @@
   color: inherit;
   transition: transform 0.25s ease, box-shadow 0.25s ease;
   min-width: 220px;
+  min-height: 240px;
+  justify-content: center;
 }
 
 .home-developer-card:hover {

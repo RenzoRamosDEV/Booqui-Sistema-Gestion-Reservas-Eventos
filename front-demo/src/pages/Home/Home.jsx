@@ -177,20 +177,22 @@ export default function Home() {
             </div>
           </div>
 
-          <a
-            href="https://www.linkedin.com/in/melanie-gabriela-cardenas-hidalgo-4b670a234/"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="home-developer-card"
-          >
+          <div className="home-developer-card">
             <div className="home-developer-avatar">
               <span>MC</span>
             </div>
             <h3>Melanie Gabriela</h3>
-            <span className="home-developer-link">
-              <i className="bi bi-linkedin"></i> LinkedIn
-            </span>
-          </a>
+            <div className="home-developer-links">
+              <a
+                href="https://www.linkedin.com/in/melanie-gabriela-cardenas-hidalgo-4b670a234/"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="home-developer-link"
+              >
+                <i className="bi bi-linkedin"></i> LinkedIn
+              </a>
+            </div>
+          </div>
         </div>
       </section>
 
