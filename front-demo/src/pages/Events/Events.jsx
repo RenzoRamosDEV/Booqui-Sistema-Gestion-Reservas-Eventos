@@ -17,11 +17,14 @@ const PLACEHOLDER_IMGS = [
   'https://images.unsplash.com/photo-1607082348824-0a96f2a4b9da?w=400&q=70',
 ]
 
+const EVENTS_PER_PAGE = 20
+
 export default function Events() {
   const [events, setEvents] = useState([])
   const [loading, setLoading] = useState(true)
   const [activeCategory, setActiveCategory] = useState('Todas')
   const [searchInput, setSearchInput] = useState('')
+  const [currentPage, setCurrentPage] = useState(1)
   const { cart, addToCart } = useCart()
   const { user } = useAuth()
   const navigate = useNavigate()
@@ -31,6 +34,7 @@ export default function Events() {
       setLoading(true)
       const data = getEventsByCategory(activeCategory)
       setEvents(data || [])
+      setCurrentPage(1)
       setLoading(false)
     }
     loadEvents()
@@ -40,6 +44,7 @@ export default function Events() {
     setLoading(true)
     const data = getEventsByCategory(activeCategory)
     setEvents(data || [])
+    setCurrentPage(1)
     setLoading(false)
   }
 
@@ -49,6 +54,7 @@ export default function Events() {
     setLoading(true)
     const data = getEventsByTitle(searchInput.trim())
     setEvents(data || [])
+    setCurrentPage(1)
     setLoading(false)
   }
 
@@ -61,13 +67,17 @@ export default function Events() {
     addToCart(event)
   }
 
+  const totalPages = Math.ceil(events.length / EVENTS_PER_PAGE)
+  const paginatedEvents = events.slice((currentPage - 1) * EVENTS_PER_PAGE, currentPage * EVENTS_PER_PAGE)
+
+  const goToPage = (page) => {
+    if (page >= 1 && page <= totalPages) setCurrentPage(page)
+  }
+
   return (
     <div className="ev-root">
-
-      {/* navbar compartido */}
       <Navbar />
 
-      {/* hero con imagen y breadcrumb */}
       <section className="ev-hero">
         <div className="ev-hero-bg" />
         <div className="ev-hero-overlay" />
@@ -81,7 +91,6 @@ export default function Events() {
         </div>
       </section>
 
-      {/* barra de filtros por categoría y búsqueda */}
       <div className="ev-toolbar">
         <div className="ev-category-tabs">
           {CATEGORIES.map(cat => (
@@ -108,11 +117,10 @@ export default function Events() {
         </div>
       </div>
 
-      {/* grid de tarjetas */}
       <div className="ev-grid-wrap">
         <div className="ev-grid">
           {loading
-            ? Array(12).fill(0).map((_, i) => (
+            ? Array.from({ length: 12 }, (_, i) => i + 1).map(i => (
                 <div key={i} style={{ height: 300 }} className="ev-skeleton" />
               ))
             : events.length === 0
@@ -122,7 +130,7 @@ export default function Events() {
                   <p>Prueba con otra categoría o búsqueda</p>
                 </div>
               )
-              : events.map((ev, i) => {
+              : paginatedEvents.map((ev, i) => {
                   const added = isInCart(ev.idEvent)
                   const isNew = i < 3
                   const isSoldOut = ev.availableTickets === 0
@@ -186,8 +194,38 @@ export default function Events() {
                 })
           }
         </div>
-      </div>
 
+        {/* Paginación */}
+        {!loading && events.length > EVENTS_PER_PAGE && (
+          <div className="ev-pagination">
+            <button
+              className="ev-page-btn"
+              onClick={() => goToPage(currentPage - 1)}
+              disabled={currentPage === 1}
+            >
+              ← Anterior
+            </button>
+            
+            {Array.from({ length: totalPages }, (_, i) => i + 1).map(page => (
+              <button
+                key={page}
+                className={`ev-page-btn${page === currentPage ? ' active' : ''}`}
+                onClick={() => goToPage(page)}
+              >
+                {page}
+              </button>
+            ))}
+            
+            <button
+              className="ev-page-btn"
+              onClick={() => goToPage(currentPage + 1)}
+              disabled={currentPage === totalPages}
+            >
+              Siguiente →
+            </button>
+          </div>
+        )}
+      </div>
     </div>
   )
 }
