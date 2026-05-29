@@ -156,15 +156,6 @@ export default function Login() {
         </div>
       </div>
 
-      <footer className="home-footer">
-        <Link to="/" className="home-footer-logo">booqi</Link>
-        <div className="home-footer-links">
-          <Link to="/">Inicio</Link>
-          <Link to="/events">Eventos</Link>
-          <Link to="/contact">Contacto</Link>
-        </div>
-        <span className="home-footer-copy">2026 booqi. Todos los derechos reservados a Mel y Renzo</span>
-      </footer>
     </div>
   )
 }
