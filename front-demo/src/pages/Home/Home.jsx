@@ -13,11 +13,11 @@ const FEATURED_IMAGES = [
 ]
 
 const HASHTAG_IMAGES = [
-  { src: 'https://images.unsplash.com/photo-1429962714451-bb934ecdc4ec?w=600&q=80', tall: true },
-  { src: 'https://images.unsplash.com/photo-1493225457124-a3eb161ffa5f?w=600&q=80' },
-  { src: 'https://images.unsplash.com/photo-1506157786151-b8491531f063?w=600&q=80' },
-  { src: 'https://images.unsplash.com/photo-1540575467063-178a50c2df87?w=600&q=80' },
-  { src: 'https://images.unsplash.com/photo-1511578314322-379afb476865?w=600&q=80' },
+  { src: MOCK_EVENTS[0].urlImage, tall: true },
+  { src: MOCK_EVENTS[4].urlImage },
+  { src: MOCK_EVENTS[7].urlImage },
+  { src: MOCK_EVENTS[11].urlImage },
+  { src: MOCK_EVENTS[13].urlImage },
 ]
 
 export default function Home() {
@@ -135,7 +135,7 @@ export default function Home() {
         <h3>#BooqiEvents</h3>
         <div className="home-hashtag-grid">
           {HASHTAG_IMAGES.map((img, i) => (
-            <div key={i} className={`home-hashtag-img${img.tall ? ' tall' : ''}`} style={i === 0 ? { gridRow: '1 / 3' } : {}}>
+            <div key={i} className={`home-hashtag-img${img.tall ? ' tall' : ''}`}>
               <img src={img.src} alt="" />
             </div>
           ))}
