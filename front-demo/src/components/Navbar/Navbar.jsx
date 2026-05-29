@@ -7,7 +7,6 @@ import './NavbarStyle.css'
 
 const S = {
   nav: {
-    position: 'fixed', top: 0, left: 0, right: 0, zIndex: 1000,
     display: 'flex', alignItems: 'center', flexWrap: 'nowrap',
     height: '68px', padding: '0 3rem',
     background: '#ffffff', borderBottom: '1px solid rgba(0,0,0,0.06)',
