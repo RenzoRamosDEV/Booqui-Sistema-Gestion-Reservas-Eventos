@@ -17,7 +17,7 @@ const S = {
   actions: { display: 'flex', alignItems: 'center', gap: '0.75rem', flexShrink: 0 },
 }
 
-export default function Navbar() {
+export default function Navbar({ hideAnnouncement = false }) {
   const [scrolled, setScrolled] = useState(false)
   const { user, logout } = useAuth()
   const { cart } = useCart()
@@ -32,9 +32,11 @@ export default function Navbar() {
 
   return (
     <header id="booqi-header">
-      <div className="announcement-bar">
-        Demo visual de BOOQI — creada por Renzo Ramos y Melanie Gabriela.
-      </div>
+      {!hideAnnouncement && (
+        <div className="announcement-bar">
+          Demo visual de BOOQI — creada por Renzo Ramos y Melanie Gabriela.
+        </div>
+      )}
       <nav
         id="booqi-navbar"
         className={`nav-root${scrolled ? ' scrolled' : ''}`}
