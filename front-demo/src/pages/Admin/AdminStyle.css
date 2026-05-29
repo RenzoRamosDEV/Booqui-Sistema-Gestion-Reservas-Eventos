@@ -10,7 +10,7 @@
 .adm-sidebar {
   width: 220px; background: #ffffff; min-height: calc(100vh - 68px);
   display: flex; flex-direction: column; padding: 1.5rem 0;
-  position: fixed; top: 68px; left: 0; bottom: 0; z-index: 50;
+  position: fixed; top: 68px; left: 0; bottom: 0; z-index: 1001;
   border-right: 1px solid #f0f0f0;
 }
 
@@ -48,11 +48,6 @@
   transition: all 0.2s;
 }
 .adm-logout-btn:hover { background: #fee2e2; }
-
-/* el navbar fijo en admin empieza después del sidebar */
-.adm-root #booqi-header {
-  left: 220px;
-}
 
 /* contenido principal desplazado para dejar sitio al sidebar */
 .adm-main { margin-left: 220px; flex: 1; padding: 2rem 2.5rem; }
