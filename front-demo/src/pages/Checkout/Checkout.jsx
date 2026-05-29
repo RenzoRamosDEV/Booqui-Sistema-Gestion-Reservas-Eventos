@@ -405,7 +405,7 @@ export default function Checkout() {
   return (
     <div className="chk-root">
       <Navbar />
-      <div className="chk-page" style={{ paddingTop: '88px' }}>
+      <div className="chk-page" style={{ paddingTop: '116px' }}>
 
         {step !== 3 && (
           <div className="chk-steps">

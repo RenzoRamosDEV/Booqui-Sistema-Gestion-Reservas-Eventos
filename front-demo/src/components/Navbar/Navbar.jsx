@@ -33,7 +33,7 @@ export default function Navbar() {
   return (
     <header id="booqi-header">
       <div className="announcement-bar">
-        Esta web es una demo visual del proyecto BOOQI — Hecha por Renzo y Melanie
+        Demo visual de BOOQI — creada por Renzo Ramos y Melanie Gabriela.
       </div>
       <nav
         id="booqi-navbar"
