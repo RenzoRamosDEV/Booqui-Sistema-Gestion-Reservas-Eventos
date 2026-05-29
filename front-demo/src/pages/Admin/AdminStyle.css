@@ -51,7 +51,7 @@
 .adm-logout-btn:hover { background: #fee2e2; }
 
 /* contenido principal desplazado para dejar sitio al sidebar y header fijo */
-.adm-main { margin-left: 220px; flex: 1; padding: 2rem 2.5rem; margin-top: 96px; }
+.adm-main { margin-left: 220px; flex: 1; padding: calc(96px + 2rem) 2.5rem 2rem; }
 
 /* topbar con título y usuario conectado */
 .adm-topbar { display: flex; align-items: center; justify-content: space-between; margin-bottom: 2rem; }
