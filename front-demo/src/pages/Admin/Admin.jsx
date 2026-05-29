@@ -5,6 +5,7 @@ import {
   deleteMockUser, deleteMockEvent, addMockEvent
 } from '../../data/mockData'
 import { useAuth } from '../../context/AuthContext'
+import Navbar from '../../components/Navbar/Navbar'
 import PDFPreviewModal from '../../components/PDFPreviewModal/PDFPreviewModal'
 import CreateEventModal from '../../components/Admin/CreateEventModal'
 import { downloadEventReport, getEventReportPDFUrl } from './exportEventReport'
@@ -266,6 +267,7 @@ export default function Admin() {
 
   return (
     <div className="adm-root">
+      <Navbar />
       <PDFPreviewModal
         isOpen={previewModalOpen}
         onClose={() => {
