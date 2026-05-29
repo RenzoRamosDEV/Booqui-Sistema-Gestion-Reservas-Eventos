@@ -13,16 +13,16 @@ const FEATURED_IMAGES = [
 ]
 
 const HASHTAG_IMAGES = [
-  { src: MOCK_EVENTS[0].urlImage, tall: true },
-  { src: MOCK_EVENTS[4].urlImage },
-  { src: MOCK_EVENTS[9].urlImage, wide: true },
-  { src: MOCK_EVENTS[7].urlImage },
-  { src: MOCK_EVENTS[5].urlImage },
-  { src: MOCK_EVENTS[11].urlImage },
-  { src: MOCK_EVENTS[3].urlImage, tall: true },
-  { src: MOCK_EVENTS[13].urlImage },
-  { src: MOCK_EVENTS[15].urlImage },
-  { src: MOCK_EVENTS[17].urlImage },
+  { src: MOCK_EVENTS[0].urlImage,  area: '1 / 1 / 3 / 2' },   // tall 2x1
+  { src: MOCK_EVENTS[4].urlImage,   area: '1 / 2 / 2 / 3' },   // normal
+  { src: MOCK_EVENTS[9].urlImage,   area: '1 / 3 / 2 / 5' },   // wide 1x2
+  { src: MOCK_EVENTS[7].urlImage,  area: '2 / 2 / 3 / 3' },   // normal
+  { src: MOCK_EVENTS[5].urlImage,  area: '2 / 3 / 3 / 4' },   // normal
+  { src: MOCK_EVENTS[11].urlImage, area: '2 / 4 / 3 / 5' },   // normal
+  { src: MOCK_EVENTS[3].urlImage,  area: '3 / 1 / 4 / 2' },   // normal
+  { src: MOCK_EVENTS[13].urlImage, area: '3 / 2 / 4 / 3' },   // normal
+  { src: MOCK_EVENTS[15].urlImage, area: '3 / 3 / 4 / 4' },   // normal
+  { src: MOCK_EVENTS[17].urlImage, area: '3 / 4 / 4 / 5' },   // normal
 ]
 
 export default function Home() {
@@ -140,7 +140,7 @@ export default function Home() {
         <h3>#BooqiEvents</h3>
         <div className="home-hashtag-grid">
           {HASHTAG_IMAGES.map((img, i) => (
-            <div key={i} className={`home-hashtag-img${img.tall ? ' tall' : ''}${img.wide ? ' wide' : ''}`}>
+            <div key={i} className="home-hashtag-img" style={{ gridArea: img.area }}>
               <img src={img.src} alt="" />
             </div>
           ))}
