@@ -79,8 +79,6 @@ export default function Contact() {
       {/* navbar compartido */}
       <Navbar />
 
-      {/* espaciado para el navbar fijo */}
-      <div className="contact-hero-spacer" />
       <div className="contact-hero">
         <div className="contact-hero-content">
           <h1>Contacto</h1>
