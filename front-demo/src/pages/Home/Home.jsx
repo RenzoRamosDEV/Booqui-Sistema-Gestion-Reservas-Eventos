@@ -32,7 +32,7 @@ export default function Home() {
 
   useEffect(() => {
     // Simular carga desde datos mock
-    setEvents(MOCK_EVENTS.slice(0, 5))
+    setEvents(MOCK_EVENTS.slice(0, 12))
     setLoading(false)
   }, [])
 
@@ -62,7 +62,7 @@ export default function Home() {
         </div>
         <div className="home-featured-slider">
           {loading
-            ? [1, 2, 3, 4, 5].map(i => (
+            ? Array.from({ length: 12 }, (_, i) => i + 1).map(i => (
                 <div key={i} style={{ flex: '0 0 260px', height: 220, borderRadius: 6 }} className="home-skeleton" />
               ))
             : events.map((ev, i) => (
