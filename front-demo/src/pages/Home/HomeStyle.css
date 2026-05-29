@@ -382,6 +382,97 @@
   transform: scale(1.05);
 }
 
+/* ── DEVELOPERS ── */
+.home-developers {
+  padding: 5rem 3rem;
+  text-align: center;
+  background: #fff;
+}
+
+.home-developers .subtitle {
+  font-size: 0.8rem;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: #7c3aed;
+  font-weight: 600;
+  margin-bottom: 0.5rem;
+}
+
+.home-developers h2 {
+  font-family: 'Playfair Display', serif;
+  font-size: 2rem;
+  margin-bottom: 2.5rem;
+  color: #1a1a1a;
+}
+
+.home-developers-grid {
+  display: flex;
+  justify-content: center;
+  gap: 2.5rem;
+  flex-wrap: wrap;
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+.home-developer-card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.6rem;
+  padding: 2rem 2.5rem;
+  border-radius: 16px;
+  background: #faf9fc;
+  border: 1px solid #eee;
+  text-decoration: none;
+  color: inherit;
+  transition: transform 0.25s ease, box-shadow 0.25s ease;
+  min-width: 220px;
+}
+
+.home-developer-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 12px 32px rgba(109, 40, 217, 0.10);
+  border-color: #ddd6fe;
+}
+
+.home-developer-avatar {
+  width: 64px;
+  height: 64px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #7c3aed 0%, #6d28d9 100%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #fff;
+  font-weight: 700;
+  font-size: 1.3rem;
+  letter-spacing: 1px;
+  margin-bottom: 0.5rem;
+}
+
+.home-developer-card h3 {
+  font-size: 1.15rem;
+  font-weight: 700;
+  color: #1a1a1a;
+  margin: 0;
+}
+
+.home-developer-card p {
+  font-size: 0.85rem;
+  color: #888;
+  margin: 0;
+}
+
+.home-developer-link {
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: #7c3aed;
+  margin-top: 0.4rem;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+}
+
 /* ── FOOTER ── */
 .home-footer {
   padding: 3rem;
