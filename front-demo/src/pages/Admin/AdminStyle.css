@@ -4,14 +4,24 @@
 .adm-root {
   font-family: 'DM Sans', sans-serif; color: #1a1a1a;
   background: #fafaf9; min-height: 100vh; display: flex;
-  padding-top: 68px;
 }
 
 .adm-sidebar {
-  width: 220px; background: #ffffff; min-height: calc(100vh - 68px);
+  width: 220px; background: #ffffff; min-height: 100vh;
   display: flex; flex-direction: column; padding: 1.5rem 0;
-  position: fixed; top: 68px; left: 0; bottom: 0; z-index: 1001;
+  position: fixed; top: 0; left: 0; bottom: 0; z-index: 50;
   border-right: 1px solid #f0f0f0;
+}
+
+.adm-sidebar-logo {
+  display: flex; align-items: center; gap: 0.4rem;
+  padding: 1.25rem 1.25rem 1rem;
+  border-bottom: 1px solid #f0f0f0; margin-bottom: 0.5rem;
+}
+.adm-sidebar-logo img { height: 28px; width: auto; mix-blend-mode: multiply; }
+.adm-sidebar-logo span {
+  font-family: 'DM Sans', sans-serif; font-weight: 700;
+  font-size: 1.5rem; color: #6d28d9; letter-spacing: -1px;
 }
 
 .adm-sidebar-label {

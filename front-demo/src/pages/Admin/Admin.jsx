@@ -5,7 +5,7 @@ import {
   deleteMockUser, deleteMockEvent, addMockEvent
 } from '../../data/mockData'
 import { useAuth } from '../../context/AuthContext'
-import Navbar from '../../components/Navbar/Navbar'
+import logo from '../../assets/logo_booqi_nuevo.png'
 import PDFPreviewModal from '../../components/PDFPreviewModal/PDFPreviewModal'
 import CreateEventModal from '../../components/Admin/CreateEventModal'
 import { downloadEventReport, getEventReportPDFUrl } from './exportEventReport'
@@ -267,7 +267,6 @@ export default function Admin() {
 
   return (
     <div className="adm-root">
-      <Navbar hideAnnouncement hideLinks />
       <PDFPreviewModal
         isOpen={previewModalOpen}
         onClose={() => {
@@ -288,6 +287,10 @@ export default function Admin() {
       />
 
       <aside className="adm-sidebar">
+        <div className="adm-sidebar-logo">
+          <img src={logo} alt="booqi" />
+          <span>booqi</span>
+        </div>
         <div className="adm-sidebar-label">Panel</div>
 
         <button className={`adm-sidebar-item${tab === TAB_USERS ? ' active' : ''}`} onClick={() => setTab(TAB_USERS)}>
