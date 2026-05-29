@@ -150,20 +150,14 @@ export default function Contact() {
       </div>
 
       {/* footer */}
-      <footer>
-        <div className="contact-footer">
-          <Link to="/" className="contact-footer-logo">booqi</Link>
-          <div className="contact-footer-links">
-            <h5>Enlaces</h5>
-            <ul>
-              <li><Link to="/">Inicio</Link></li>
-              <li><Link to="/events">Eventos</Link></li>
-              <li><Link to="/events">Categorías</Link></li>
-              <li><Link to="/contact">Contacto</Link></li>
-            </ul>
-          </div>
+      <footer className="home-footer">
+        <Link to="/" className="home-footer-logo">booqi</Link>
+        <div className="home-footer-links">
+          <Link to="/">Inicio</Link>
+          <Link to="/events">Eventos</Link>
+          <Link to="/contact">Contacto</Link>
         </div>
-        <div className="contact-footer-bottom">2026 booqi. Todos los derechos reservados</div>
+        <span className="home-footer-copy">2026 booqi. Todos los derechos reservados a Mel y Renzo</span>
       </footer>
 
       {/* modal de confirmación con confeti */}

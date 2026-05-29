@@ -389,6 +389,15 @@ export default function Checkout() {
           <p style={{ fontSize: '1.1rem', color: '#888', marginBottom: '1.5rem' }}>No hay eventos en tu carrito.</p>
           <Link to="/events" style={{ color: '#7c3aed', fontWeight: 600 }}>← Explorar eventos</Link>
         </div>
+        <footer className="home-footer">
+          <Link to="/" className="home-footer-logo">booqi</Link>
+          <div className="home-footer-links">
+            <Link to="/">Inicio</Link>
+            <Link to="/events">Eventos</Link>
+            <Link to="/contact">Contacto</Link>
+          </div>
+          <span className="home-footer-copy">2026 booqi. Todos los derechos reservados a Mel y Renzo</span>
+        </footer>
       </div>
     )
   }
@@ -549,6 +558,15 @@ export default function Checkout() {
         )}
 
       </div>
+      <footer className="home-footer">
+        <Link to="/" className="home-footer-logo">booqi</Link>
+        <div className="home-footer-links">
+          <Link to="/">Inicio</Link>
+          <Link to="/events">Eventos</Link>
+          <Link to="/contact">Contacto</Link>
+        </div>
+        <span className="home-footer-copy">2026 booqi. Todos los derechos reservados a Mel y Renzo</span>
+      </footer>
     </div>
   )
 }
