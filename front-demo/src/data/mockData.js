@@ -150,6 +150,141 @@ export const MOCK_EVENTS = [
     contactEmail: "fiestas@partymakers.es",
     contactPhone: "+34600888999",
     urlImage: "https://images.unsplash.com/photo-1492684223066-81342ee5ff30?w=600&q=80"
+  },
+  {
+    idEvent: 11,
+    title: "Guitarra Flamenca en Vivo",
+    description: "Espectáculo íntimo de guitarra flamenca con cante y baile en tablao tradicional.",
+    location: "Corral de la Morería, Madrid",
+    startDate: "2026-04-05T21:00:00",
+    endDate: "2026-04-05T23:00:00",
+    availableTickets: 35,
+    price: 45,
+    category: "Música",
+    organized: "Arte Flamenco Madrid",
+    contactEmail: "info@arteflamenco.es",
+    contactPhone: "+34600123456",
+    urlImage: "https://images.unsplash.com/photo-1514320291840-2e0a9bf2a9ae?w=600&q=80"
+  },
+  {
+    idEvent: 12,
+    title: "Exposición de Arte Moderno",
+    description: "Colección temporal de arte contemporáneo europeo con obras de artistas emergentes.",
+    location: "Museo Reina Sofía, Madrid",
+    startDate: "2026-05-01T10:00:00",
+    endDate: "2026-07-31T20:00:00",
+    availableTickets: 500,
+    price: 15,
+    category: "Arte",
+    organized: "Ministerio de Cultura",
+    contactEmail: "expos@mncn.es",
+    contactPhone: "+34910123456",
+    urlImage: "https://images.unsplash.com/photo-1536924940846-227afb31e2a5?w=600&q=80"
+  },
+  {
+    idEvent: 13,
+    title: "Partido de Baloncesto: Real Madrid vs Barcelona",
+    description: "Clásico del baloncesto español en la Euroliga. Ambiente electrizante garantizado.",
+    location: "WiZink Center, Madrid",
+    startDate: "2026-03-30T20:45:00",
+    endDate: "2026-03-30T23:00:00",
+    availableTickets: 80,
+    price: 65,
+    category: "Deporte",
+    organized: "Liga ACB",
+    contactEmail: "entradas@acb.com",
+    contactPhone: "+34900999888",
+    urlImage: "https://images.unsplash.com/photo-1546519638-68e109498ffc?w=600&q=80"
+  },
+  {
+    idEvent: 14,
+    title: "Cata de Vinos de la Ribera del Duero",
+    description: "Degustación guiada de 6 vinos premium con maridaje de quesos y embutidos artesanales.",
+    location: "Bodegas Protos, Peñafiel",
+    startDate: "2026-05-15T18:00:00",
+    endDate: "2026-05-15T21:00:00",
+    availableTickets: 25,
+    price: 55,
+    category: "Gastronomía",
+    organized: "Rutas del Vino",
+    contactEmail: "catas@rutasdelvino.es",
+    contactPhone: "+34650111222",
+    urlImage: "https://images.unsplash.com/photo-1510812431401-41d2bd2722f3?w=600&q=80"
+  },
+  {
+    idEvent: 15,
+    title: "Conferencia: El Futuro de la IA Generativa",
+    description: "Charla magistral sobre los últimos avances en inteligencia artificial generativa y sus aplicaciones.",
+    location: " Auditorio del Campus, UPM Madrid",
+    startDate: "2026-04-20T09:30:00",
+    endDate: "2026-04-20T13:00:00",
+    availableTickets: 300,
+    price: 0,
+    category: "Tecnología",
+    organized: "AI Madrid Summit",
+    contactEmail: "info@aimadridsummit.com",
+    contactPhone: "+34660111222",
+    urlImage: "https://images.unsplash.com/photo-1677442136019-21780ecad995?w=600&q=80"
+  },
+  {
+    idEvent: 16,
+    title: "Taller de Cocina Peruana",
+    description: "Aprende a preparar ceviche, lomo saltado y pisco sour con un chef peruano reconocido.",
+    location: "Escuela de Cocina, Alcorcón",
+    startDate: "2026-06-05T17:00:00",
+    endDate: "2026-06-05T20:00:00",
+    availableTickets: 18,
+    price: 40,
+    category: "Gastronomía",
+    organized: "Sabores del Mundo",
+    contactEmail: "talleres@saboresdelmundo.com",
+    contactPhone: "+34670111222",
+    urlImage: "https://images.unsplash.com/photo-1507048331197-7d4ac5bdd630?w=600&q=80"
+  },
+  {
+    idEvent: 17,
+    title: "Taller de Escritura Creativa",
+    description: "Sesión práctica para desbloquear la creatividad literaria con ejercicios de narrativa y poesía.",
+    location: "Libreria La Central, Madrid",
+    startDate: "2026-03-15T17:00:00",
+    endDate: "2026-03-15T19:30:00",
+    availableTickets: 15,
+    price: 22,
+    category: "Educación",
+    organized: "Escuela de Letras",
+    contactEmail: "cursos@escueladeletras.es",
+    contactPhone: "+34680111222",
+    urlImage: "https://images.unsplash.com/photo-1455390582262-044cdead277a?w=600&q=80"
+  },
+  {
+    idEvent: 18,
+    title: "Feria de Artesanía y Mercadillo Vintage",
+    description: "Encuentro de artesanos y coleccionistas con música ambiental, food trucks y actividades para niños.",
+    location: "Matadero Madrid",
+    startDate: "2026-05-02T11:00:00",
+    endDate: "2026-05-02T20:00:00",
+    availableTickets: 500,
+    price: 0,
+    category: "Otros",
+    organized: "Mercadillos Madrid",
+    contactEmail: "info@mercadillosmadrid.com",
+    contactPhone: "+34690111222",
+    urlImage: "https://images.unsplash.com/photo-1531058020387-3be344556be6?w=600&q=80"
+  },
+  {
+    idEvent: 19,
+    title: "Noche de Monólogos de Comedia",
+    description: "Show de stand-up comedy con los mejores monologuistas del circuito nacional. Risas aseguradas.",
+    location: "Teatro Nuevo Apolo, Madrid",
+    startDate: "2026-04-12T21:00:00",
+    endDate: "2026-04-12T23:30:00",
+    availableTickets: 60,
+    price: 18,
+    category: "Otros",
+    organized: "Comedy Club España",
+    contactEmail: "entradas@comedyclub.es",
+    contactPhone: "+34700111222",
+    urlImage: "https://images.unsplash.com/photo-1585699324551-f6c309eedeca?w=600&q=80"
   }
 ]
 
@@ -342,7 +477,7 @@ export const MOCK_PAYMENTS = [
 
 // Helpers para mutar datos en la demo (solo en memoria)
 
-let nextEventId = 11
+let nextEventId = 20
 let nextBookingId = 105
 let nextPaymentId = 1005
 let nextUserId = 6
