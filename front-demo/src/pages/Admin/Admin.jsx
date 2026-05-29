@@ -64,6 +64,24 @@ export default function Admin() {
     }
   }, [tab, salesLoaded, loadingSales, loadSalesData])
 
+  // Ajusta la altura del header dinámicamente
+  useEffect(() => {
+    const header = document.getElementById('booqi-header')
+    if (!header) return
+
+    const update = () => {
+      document.documentElement.style.setProperty(
+        '--header-h',
+        `${header.offsetHeight}px`
+      )
+    }
+
+    update() // medición inicial
+    const ro = new ResizeObserver(update)
+    ro.observe(header)
+    return () => ro.disconnect()
+  }, [])
+
   const handleDeleteUser = async (email) => {
     if (!window.confirm(`¿Eliminar usuario ${email}?`)) return
     deleteMockUser(email)
