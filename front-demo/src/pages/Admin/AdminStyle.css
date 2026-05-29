@@ -4,12 +4,13 @@
 .adm-root {
   font-family: 'DM Sans', sans-serif; color: #1a1a1a;
   background: #fafaf9; min-height: 100vh; display: flex;
+  padding-top: 68px;
 }
 
 .adm-sidebar {
-  width: 220px; background: #ffffff; min-height: 100vh;
+  width: 220px; background: #ffffff; min-height: calc(100vh - 68px);
   display: flex; flex-direction: column; padding: 1.5rem 0;
-  position: fixed; top: 0; left: 0; bottom: 0; z-index: 50;
+  position: fixed; top: 68px; left: 0; bottom: 0; z-index: 50;
   border-right: 1px solid #f0f0f0;
 }
 

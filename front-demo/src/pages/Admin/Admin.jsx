@@ -5,6 +5,7 @@ import {
   deleteMockUser, deleteMockEvent, addMockEvent
 } from '../../data/mockData'
 import { useAuth } from '../../context/AuthContext'
+import Navbar from '../../components/Navbar/Navbar'
 import logo from '../../assets/logo_booqi_nuevo.png'
 import PDFPreviewModal from '../../components/PDFPreviewModal/PDFPreviewModal'
 import CreateEventModal from '../../components/Admin/CreateEventModal'
@@ -267,6 +268,7 @@ export default function Admin() {
 
   return (
     <div className="adm-root">
+      <Navbar hideAnnouncement />
       <PDFPreviewModal
         isOpen={previewModalOpen}
         onClose={() => {
