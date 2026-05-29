@@ -267,7 +267,7 @@ export default function Admin() {
 
   return (
     <div className="adm-root">
-      <Navbar   />
+      <Navbar hideLinks />
       <PDFPreviewModal
         isOpen={previewModalOpen}
         onClose={() => {
