@@ -10,6 +10,7 @@ import PDFPreviewModal from '../../components/PDFPreviewModal/PDFPreviewModal'
 import CreateEventModal from '../../components/CreateEventModal/CreateEventModal'
 import { downloadEventReport, getEventReportPDFUrl } from '../../utils/exportEventReport'
 import './Admin.css'
+import './Admin.mobile.css'
 
 const TAB_USERS = 'users'
 const TAB_EVENTS = 'events'
