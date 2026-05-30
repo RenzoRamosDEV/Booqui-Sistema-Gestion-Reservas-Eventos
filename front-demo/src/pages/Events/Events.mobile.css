@@ -1,0 +1,33 @@
+/* Events — hero mobile
+   Se importa después de Events.css para ganar la cascada */
+
+@media (max-width: 768px) {
+  .ev-hero {
+    height: 200px;
+  }
+
+  .ev-hero-content {
+    top: 68px;
+    height: auto;
+    padding: 0 1.25rem;
+  }
+
+  .ev-hero-content h1 {
+    font-size: 1.8rem;
+    margin-bottom: 0.3rem;
+  }
+
+  .ev-breadcrumb {
+    font-size: 0.8rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .ev-hero {
+    height: 170px;
+  }
+
+  .ev-hero-content h1 {
+    font-size: 1.5rem;
+  }
+}

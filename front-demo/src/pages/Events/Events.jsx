@@ -5,6 +5,7 @@ import { useCart } from '../../context/CartContext'
 import { useAuth } from '../../context/AuthContext'
 import Navbar from '../../components/Navbar/Navbar'
 import './Events.css'
+import './Events.mobile.css'
 
 const CATEGORIES = ['Todas', 'Música', 'Arte', 'Deporte', 'Gastronomía', 'Tecnología', 'Educación', 'Otros']
 
