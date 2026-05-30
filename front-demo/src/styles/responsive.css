@@ -214,7 +214,7 @@
   .contact-success-icon { font-size: 2rem; }
 
   .home-footer { padding: 1.5rem 1rem; }
-  .home-footer-links { flex-direction: column; align-items: center; gap: 0.5rem; }
+  .home-footer-links { flex-direction: row; flex-wrap: wrap; justify-content: center; gap: 1rem; }
 }
 
 
