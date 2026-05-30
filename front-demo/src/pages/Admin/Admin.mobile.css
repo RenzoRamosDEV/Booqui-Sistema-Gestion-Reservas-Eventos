@@ -1,12 +1,20 @@
 /* Admin — estilos mobile
    Se importa después de Admin.css para ganar la cascada */
 
+/* Navbar y footer móvil: ocultos en desktop, visibles en móvil */
+.adm-mobile-nav    { display: none; }
+.adm-mobile-footer { display: none; }
+
 @media (max-width: 768px) {
+  .adm-mobile-nav    { display: block; }
+  .adm-mobile-footer { display: grid; }
+
   /* Contenedor principal sin overflow */
   .adm-root { overflow-x: hidden; }
   .adm-main {
     margin-left: 0;
     padding: 1rem;
+    padding-top: calc(68px + 1.25rem);
     max-width: 100%;
     overflow-x: hidden;
   }
