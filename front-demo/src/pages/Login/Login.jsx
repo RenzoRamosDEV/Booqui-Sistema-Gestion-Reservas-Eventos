@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react'
 import { useNavigate, Link } from 'react-router-dom'
 import { findUserByEmail } from '../../data/mockData'
 import { useAuth } from '../../context/AuthContext'
-import './LoginStyle.css'
+import './Login.css'
 
 const SLIDES = [
   {

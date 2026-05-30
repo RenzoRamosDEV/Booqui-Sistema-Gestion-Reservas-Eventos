@@ -6,7 +6,7 @@ import { useCart } from '../../context/CartContext'
 import { useAuth } from '../../context/AuthContext'
 import Navbar from '../../components/Navbar/Navbar'
 import 'bootstrap-icons/font/bootstrap-icons.css'
-import './EventDetailStyle.css'
+import './EventDetail.css'
 
 const PLACEHOLDER_IMGS = [
   'https://images.unsplash.com/photo-1470229722913-7c0e2dbbafd3?w=800&q=80',

@@ -4,7 +4,7 @@ import { MOCK_EVENTS, getEventsByCategory, getEventsByTitle } from '../../data/m
 import { useCart } from '../../context/CartContext'
 import { useAuth } from '../../context/AuthContext'
 import Navbar from '../../components/Navbar/Navbar'
-import './EventsStyle.css'
+import './Events.css'
 
 const CATEGORIES = ['Todas', 'Música', 'Arte', 'Deporte', 'Gastronomía', 'Tecnología', 'Educación', 'Otros']
 

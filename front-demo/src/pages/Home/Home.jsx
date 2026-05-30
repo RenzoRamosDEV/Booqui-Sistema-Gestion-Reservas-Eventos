@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import { MOCK_EVENTS } from '../../data/mockData'
 import Navbar from '../../components/Navbar/Navbar'
-import './HomeStyle.css'
+import './Home.css'
 
 const FEATURED_IMAGES = [
   'https://images.unsplash.com/photo-1470229722913-7c0e2dbbafd3?w=600&q=80',

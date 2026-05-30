@@ -1,7 +1,7 @@
 import { HashRouter as Router, Routes, Route } from 'react-router-dom'
 import { AuthProvider } from './context/AuthContext'
 import { CartProvider } from './context/CartContext'
-import ProtectedRoute from './components/ProtectedRoute'
+import ProtectedRoute from './components/ProtectedRoute/ProtectedRoute'
 import Home from './pages/Home/Home'
 import Events from './pages/Events/Events'
 import EventDetail from './pages/Events/EventDetail'

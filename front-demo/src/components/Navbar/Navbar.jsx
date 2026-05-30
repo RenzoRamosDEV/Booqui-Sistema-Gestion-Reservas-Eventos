@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom'
 import { useAuth } from '../../context/AuthContext'
 import { useCart } from '../../context/CartContext'
 import logo from '../../assets/logo_booqi_nuevo.png'
-import './NavbarStyle.css'
+import './Navbar.css'
 
 const S = {
   nav: {

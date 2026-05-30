@@ -5,7 +5,7 @@ import { getUserBookings } from '../../data/mockData'
 import { generateTicketPDF, downloadPDF } from '../../utils/ticketGenerator'
 import Navbar from '../../components/Navbar/Navbar'
 import 'bootstrap-icons/font/bootstrap-icons.css'
-import './MyBookingsStyle.css'
+import './MyBookings.css'
 
 export default function MyBookings() {
   const { user } = useAuth()

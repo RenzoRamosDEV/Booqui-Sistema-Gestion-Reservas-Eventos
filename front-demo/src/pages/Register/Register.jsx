@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react'
 import { useNavigate, Link } from 'react-router-dom'
 import { addMockUser, findUserByEmail } from '../../data/mockData'
-import './RegisterStyle.css'
+import './Register.css'
 
 const SLIDES = [
   {

@@ -271,11 +271,6 @@
   transform: translateY(-1px);  
 }
 
-.mybookings-status-badge.cancelled {
-  background: #ffebee;
-  color: #c62828;
-}
-
 .mybookings-download-btn:disabled {
   background: #ccc;
   cursor: not-allowed;

@@ -7,9 +7,9 @@ import {
 } from '../../data/mockData'
 import { useAuth } from '../../context/AuthContext'
 import PDFPreviewModal from '../../components/PDFPreviewModal/PDFPreviewModal'
-import CreateEventModal from '../../components/Admin/CreateEventModal'
-import { downloadEventReport, getEventReportPDFUrl } from './exportEventReport'
-import './AdminStyle.css'
+import CreateEventModal from '../../components/CreateEventModal/CreateEventModal'
+import { downloadEventReport, getEventReportPDFUrl } from '../../utils/exportEventReport'
+import './Admin.css'
 
 const TAB_USERS = 'users'
 const TAB_EVENTS = 'events'

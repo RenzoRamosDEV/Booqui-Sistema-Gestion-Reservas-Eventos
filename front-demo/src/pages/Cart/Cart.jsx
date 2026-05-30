@@ -2,7 +2,7 @@ import { Link, useNavigate } from 'react-router-dom'
 import { useCart } from '../../context/CartContext'
 import { useAuth } from '../../context/AuthContext'
 import Navbar from '../../components/Navbar/Navbar'
-import './CartStyle.css'
+import './Cart.css'
 
 const PLACEHOLDER = 'https://images.unsplash.com/photo-1540039155733-5bb30b53aa14?w=200&q=60'
 
