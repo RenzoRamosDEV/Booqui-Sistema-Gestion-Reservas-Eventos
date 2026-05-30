@@ -2,12 +2,12 @@
    Se importa después de Admin.css para ganar la cascada */
 
 /* Navbar y footer móvil: ocultos en desktop, visibles en móvil */
-.adm-mobile-nav    { display: none; }
-.adm-mobile-footer { display: none; }
+.adm-mobile-nav    { display: none !important; }
+.adm-mobile-footer { display: none !important; }
 
 @media (max-width: 768px) {
-  .adm-mobile-nav    { display: block; }
-  .adm-mobile-footer { display: grid; }
+  .adm-mobile-nav    { display: block !important; }
+  .adm-mobile-footer { display: grid !important; }
 
   /* Contenedor principal sin overflow */
   .adm-root { overflow-x: hidden; }
