@@ -168,8 +168,7 @@
 @media (max-width: 768px) {
   .cart-header { padding: 1.5rem 1rem 1rem; padding-top: calc(68px + 1.5rem); }
 
-  .cart-table th:nth-child(3),
-  .cart-table td:nth-child(3) { display: none; }
+  /* columna Precio oculta (Cart.css ya lo hace), Cantidad visible */
 
   .cart-item-name { font-size: 0.88rem; }
 
