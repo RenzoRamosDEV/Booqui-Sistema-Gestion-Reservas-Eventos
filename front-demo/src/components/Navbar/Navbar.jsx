@@ -5,17 +5,6 @@ import { useCart } from '../../context/CartContext'
 import logo from '../../assets/logo_booqi_nuevo.png'
 import './Navbar.css'
 
-const S = {
-  nav: {
-    display: 'flex', alignItems: 'center', flexWrap: 'nowrap',
-    height: '68px', padding: '0 3rem',
-    background: '#ffffff', borderBottom: '1px solid rgba(0,0,0,0.06)',
-    transition: 'box-shadow 0.3s',
-  },
-  logo: { display: 'flex', alignItems: 'center', gap: '0.4rem', textDecoration: 'none', flexShrink: 0 },
-  links: { display: 'flex', alignItems: 'center', gap: '2rem', flex: 1, justifyContent: 'center', listStyle: 'none', margin: 0, padding: 0 },
-  actions: { display: 'flex', alignItems: 'center', gap: '0.75rem', flexShrink: 0 },
-}
 
 export default function Navbar({ hideAnnouncement = false, hideLinks = false }) {
   const [scrolled, setScrolled] = useState(false)
@@ -56,15 +45,14 @@ export default function Navbar({ hideAnnouncement = false, hideLinks = false }) 
       <nav
         id="booqi-navbar"
         className={`nav-root${scrolled ? ' scrolled' : ''}`}
-        style={scrolled ? { ...S.nav, boxShadow: '0 2px 20px rgba(0,0,0,0.08)' } : S.nav}
       >
-        <Link to="/" className="nav-logo" style={S.logo}>
+        <Link to="/" className="nav-logo">
           <img src={logo} alt="booqi" className="nav-logo-img" />
           <span className="nav-logo-text">booqi</span>
         </Link>
 
         {!hideLinks && (
-          <div className="nav-links" style={S.links}>
+          <div className="nav-links">
             <Link to="/">Inicio</Link>
             <Link to="/events">Eventos</Link>
             <Link to="/contact">Contacto</Link>
@@ -72,7 +60,7 @@ export default function Navbar({ hideAnnouncement = false, hideLinks = false }) 
           </div>
         )}
 
-        <div className="nav-actions" style={S.actions}>
+        <div className="nav-actions">
           {user ? (
             <>
               <span className="nav-hello">Hola, {user.firstName}</span>
