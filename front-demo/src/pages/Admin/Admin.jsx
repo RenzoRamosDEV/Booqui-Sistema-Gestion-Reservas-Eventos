@@ -1,5 +1,6 @@
 import { useState, useEffect, useCallback } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
+import logo from '../../assets/logo_booqi_nuevo.png'
 import {
   MOCK_USERS, MOCK_EVENTS, MOCK_BOOKINGS, MOCK_PAYMENTS,
   deleteMockUser, deleteMockEvent, addMockEvent
@@ -287,6 +288,11 @@ export default function Admin() {
       />
 
       <aside className="adm-sidebar">
+        <Link to="/" className="adm-sidebar-logo">
+          <img src={logo} alt="booqi" className="adm-sidebar-logo-img" />
+          <span>booqi</span>
+        </Link>
+
         <div className="adm-sidebar-label">Panel</div>
 
         <button className={`adm-sidebar-item${tab === TAB_USERS ? ' active' : ''}`} onClick={() => setTab(TAB_USERS)}>
