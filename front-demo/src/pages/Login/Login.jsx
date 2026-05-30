@@ -59,8 +59,7 @@ export default function Login() {
       const user = findUserByEmail(email)
       if (user && user.password === password) {
         login(user)
-        if (user.role === 'ADMIN') navigate('/admin')
-        else navigate('/')
+        navigate('/')
       } else {
         setError('Email o contraseña incorrectos.')
       }
