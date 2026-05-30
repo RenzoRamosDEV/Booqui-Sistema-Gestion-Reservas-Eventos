@@ -16,6 +16,7 @@
   padding: 6px;
   border-radius: 8px;
   flex-shrink: 0;
+  margin-left: auto;
   transition: background 0.2s;
 }
 .nav-hamburger:hover { background: #f5f3ff; }
