@@ -21,7 +21,7 @@ export default function EventDetail() {
   const [loading, setLoading] = useState(true)
   const [quantity, setQuantity] = useState(1)
 
-  const { cart, addToCart } = useCart()
+  const { cart, addToCart, removeFromCart } = useCart()
   const { user } = useAuth()
 
   useEffect(() => {
@@ -279,8 +279,12 @@ export default function EventDetail() {
               {/* botón de añadir al carrito con 3 estados posibles */}
               <button
                 className={`evd-add-cart-btn${isInCart ? ' added' : ''}${isSoldOut ? ' disabled' : ''}`}
-                onClick={handleAddToCart}
-                disabled={isInCart || isSoldOut}
+                onClick={() => {
+                  if (isSoldOut) return
+                  if (isInCart) removeFromCart(event?.idEvent || event?.id)
+                  else handleAddToCart()
+                }}
+                disabled={isSoldOut}
               >
                 {/* agotado */}
                 {isSoldOut ? (
@@ -289,10 +293,9 @@ export default function EventDetail() {
                     Agotado
                   </>
                 ) : isInCart ? (
-                  // ya añadido
                   <>
-                    <i className="bi bi-check-circle"></i>
-                    Ya en el carrito
+                    <i className="bi bi-x-circle"></i>
+                    Quitar del carrito
                   </>
                 ) : (
                   // dispoo

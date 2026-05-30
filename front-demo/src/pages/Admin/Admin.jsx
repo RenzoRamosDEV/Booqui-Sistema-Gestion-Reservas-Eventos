@@ -9,7 +9,9 @@ import { useAuth } from '../../context/AuthContext'
 import PDFPreviewModal from '../../components/PDFPreviewModal/PDFPreviewModal'
 import CreateEventModal from '../../components/CreateEventModal/CreateEventModal'
 import { downloadEventReport, getEventReportPDFUrl } from '../../utils/exportEventReport'
+import Navbar from '../../components/Navbar/Navbar'
 import './Admin.css'
+import './Admin.mobile.css'
 
 const TAB_USERS = 'users'
 const TAB_EVENTS = 'events'
@@ -267,6 +269,10 @@ export default function Admin() {
   }
 
   return (
+    <>
+    <div className="adm-mobile-nav">
+      <Navbar hideAnnouncement />
+    </div>
     <div className="adm-root">
       <PDFPreviewModal
         isOpen={previewModalOpen}
@@ -720,6 +726,17 @@ export default function Admin() {
           </div>
         )}
       </main>
+
     </div>
+    <footer className="home-footer adm-mobile-footer">
+      <Link to="/" className="home-footer-logo">booqi</Link>
+      <div className="home-footer-links">
+        <Link to="/">Inicio</Link>
+        <Link to="/events">Eventos</Link>
+        <Link to="/contact">Contacto</Link>
+      </div>
+      <span className="home-footer-copy">2026 booqi. Todos los derechos reservados a Mel y Renzo</span>
+    </footer>
+    </>
   )
 }

@@ -127,7 +127,7 @@
 }
 
 .home-featured-text { 
-  flex: 0 0 300px; 
+  flex: 0 0 350px; 
   color: #fff;
 }
 
@@ -705,5 +705,12 @@
 @media (max-width: 1200px) {
   .home-featured-slider::after {
     display: block;
+  }
+}
+
+/* mobile: featured text sin ancho fijo */
+@media (max-width: 768px) {
+  .home-featured-text {
+    flex: 1 1 auto;
   }
 }

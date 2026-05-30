@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom'
 import Navbar from '../../components/Navbar/Navbar'
 import contactImage from '../../assets/contacto.jpg'
 import './Contact.css'
+import './Contact.mobile.css'
 
 const CONFETTI_COLORS = ['#7c3aed','#a78bfa','#4a1a6b','#f0abfc','#fbbf24','#34d399','#60a5fa']
 
@@ -80,6 +81,8 @@ export default function Contact() {
       <Navbar />
 
       <div className="contact-hero">
+        <div className="contact-hero-bg" />
+        <div className="contact-hero-overlay" />
         <div className="contact-hero-content">
           <h1>Contacto</h1>
           <div className="contact-breadcrumb">
