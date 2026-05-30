@@ -237,17 +237,13 @@
    CONTACT — extensiones mobile
    ────────────────────────────────────────────────────────────── */
 
+/* hero → ver Contact.mobile.css */
 @media (max-width: 768px) {
-  .contact-hero { height: 200px; }
-  .contact-hero-content { padding: 0 1.25rem; }
   .contact-eyebrow { font-size: 0.7rem; }
-  .contact-breadcrumb { font-size: 0.78rem; }
-
   .contact-page { padding-top: 68px; }
 }
 
 @media (max-width: 480px) {
-  .contact-hero { height: 170px; }
   .contact-form-side { padding: 1.5rem 1rem; }
   .contact-features { grid-template-columns: 1fr; padding: 1.5rem 1rem; }
   .contact-feature { flex-direction: column; gap: 0.5rem; }

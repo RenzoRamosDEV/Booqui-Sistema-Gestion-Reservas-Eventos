@@ -81,6 +81,8 @@ export default function Contact() {
       <Navbar />
 
       <div className="contact-hero">
+        <div className="contact-hero-bg" />
+        <div className="contact-hero-overlay" />
         <div className="contact-hero-content">
           <h1>Contacto</h1>
           <div className="contact-breadcrumb">
