@@ -1,23 +1,10 @@
 /* Contact — hero mobile
-   Se importa después de Contact.css para ganar la cascada */
-
-/* Divs de fondo y overlay (igual que ev-hero-bg y ev-hero-overlay) */
-.contact-hero-bg {
-  position: absolute;
-  inset: 0;
-  background-image: url('https://images.unsplash.com/photo-1467810563316-b5476525c0f9?w=1400&q=80');
-  background-size: cover;
-  background-position: center 40%;
-  filter: brightness(0.35);
-}
-
-.contact-hero-overlay {
-  position: absolute;
-  inset: 0;
-  background: rgba(91, 33, 182, 0.45);
-}
+   Idéntico a Events.mobile.css, solo cambian los nombres de clase */
 
 @media (max-width: 768px) {
+  .contact-page { overflow-x: hidden; }
+  .contact-image-wrapper { display: none; }
+
   .contact-hero {
     height: 240px;
   }
@@ -33,13 +20,11 @@
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    z-index: 2;
   }
 
   .contact-hero .contact-hero-content h1 {
     font-size: 2.8rem;
     margin-bottom: 0.4rem;
-    color: #fff;
   }
 
   .contact-breadcrumb {
