@@ -4,6 +4,7 @@ import { useAuth } from '../../context/AuthContext'
 import { useCart } from '../../context/CartContext'
 import logo from '../../assets/logo_booqi_nuevo.png'
 import './Navbar.css'
+import './Navbar.mobile.css'
 
 
 export default function Navbar({ hideAnnouncement = false, hideLinks = false }) {
