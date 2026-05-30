@@ -140,6 +140,16 @@
 
 /* ── Media queries ── */
 @media (max-width: 768px) {
+  .announcement-bar {
+    height: auto;
+    min-height: 28px;
+    padding: 5px 1rem;
+    font-size: 0.7rem;
+    letter-spacing: 0;
+    text-align: center;
+    line-height: 1.4;
+  }
+
   #booqi-navbar .nav-links  { display: none !important; }
   #booqi-navbar .nav-actions { display: none !important; }
   .nav-hamburger { display: flex; }
