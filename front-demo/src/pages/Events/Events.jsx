@@ -26,7 +26,7 @@ export default function Events() {
   const [activeCategory, setActiveCategory] = useState('Todas')
   const [searchInput, setSearchInput] = useState('')
   const [currentPage, setCurrentPage] = useState(1)
-  const { cart, addToCart } = useCart()
+  const { cart, addToCart, removeFromCart } = useCart()
   const { user } = useAuth()
   const navigate = useNavigate()
 
@@ -182,9 +182,11 @@ export default function Events() {
                             onClick={(e) => {
                               e.stopPropagation()
                               e.preventDefault()
-                              if (!isSoldOut && !added) handleAdd(e, ev)
+                              if (isSoldOut) return
+                              if (added) removeFromCart(ev.idEvent || ev.id)
+                              else handleAdd(e, ev)
                             }}
-                            disabled={added || isSoldOut}
+                            disabled={isSoldOut}
                           >
                             {isSoldOut ? 'Agotado' : added ? '✓ Añadido' : '+ Carrito'}
                           </button>
