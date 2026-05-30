@@ -1,0 +1,551 @@
+/* ============================================================
+   responsive.css — Estilos exclusivos para móvil
+   No modifica CSS existente, solo añade media queries nuevos.
+   Breakpoints: 768px (tablet/phone) y 480px (phone pequeño)
+   ============================================================ */
+
+/* ──────────────────────────────────────────────────────────────
+   NAVBAR — hamburger + drawer mobile
+   ────────────────────────────────────────────────────────────── */
+
+.nav-hamburger {
+  display: none;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 5px;
+  width: 40px;
+  height: 40px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 6px;
+  border-radius: 8px;
+  margin-left: auto;
+  transition: background 0.2s;
+}
+.nav-hamburger:hover { background: #f5f3ff; }
+.nav-hamburger span {
+  display: block;
+  width: 22px;
+  height: 2px;
+  background: #1a1a1a;
+  border-radius: 2px;
+  transition: transform 0.3s, opacity 0.3s;
+  transform-origin: center;
+}
+.nav-hamburger.open span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+.nav-hamburger.open span:nth-child(2) { opacity: 0; }
+.nav-hamburger.open span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+
+.nav-mobile-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.4);
+  z-index: 998;
+  animation: fadeIn 0.2s ease;
+}
+
+.nav-mobile-drawer {
+  position: fixed;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  width: 80%;
+  max-width: 320px;
+  background: #fff;
+  z-index: 999;
+  display: flex;
+  flex-direction: column;
+  transform: translateX(100%);
+  transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  box-shadow: -4px 0 24px rgba(0, 0, 0, 0.12);
+}
+.nav-mobile-drawer.open { transform: translateX(0); }
+
+.nav-mobile-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 1.25rem 1.5rem;
+  border-bottom: 1px solid #f0f0f0;
+}
+.nav-mobile-close {
+  background: none;
+  border: none;
+  font-size: 1.1rem;
+  color: #888;
+  cursor: pointer;
+  padding: 4px 8px;
+  border-radius: 6px;
+  transition: background 0.2s;
+}
+.nav-mobile-close:hover { background: #f5f5f5; color: #1a1a1a; }
+
+.nav-mobile-links {
+  display: flex;
+  flex-direction: column;
+  padding: 1rem 0;
+  border-bottom: 1px solid #f0f0f0;
+}
+.nav-mobile-links a {
+  padding: 0.85rem 1.5rem;
+  text-decoration: none;
+  color: #333;
+  font-size: 1rem;
+  font-weight: 500;
+  font-family: 'DM Sans', sans-serif;
+  transition: background 0.15s, color 0.15s;
+  border-left: 3px solid transparent;
+}
+.nav-mobile-links a:hover {
+  background: #f5f3ff;
+  color: #7c3aed;
+  border-left-color: #7c3aed;
+}
+
+.nav-mobile-actions {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  padding: 1.25rem 1.5rem;
+}
+.nav-mobile-greeting {
+  font-size: 0.9rem;
+  color: #666;
+  font-family: 'DM Sans', sans-serif;
+  margin-bottom: 0.25rem;
+}
+.nav-mobile-btn {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.75rem 1rem;
+  border-radius: 10px;
+  font-size: 0.95rem;
+  font-family: 'DM Sans', sans-serif;
+  font-weight: 500;
+  text-decoration: none;
+  cursor: pointer;
+  border: 1.5px solid #e5e5e5;
+  background: #fafafa;
+  color: #333;
+  transition: all 0.2s;
+}
+.nav-mobile-btn:hover { border-color: #7c3aed; color: #7c3aed; }
+.nav-mobile-btn-solid {
+  background: #1a1a1a;
+  color: #fff;
+  border-color: #1a1a1a;
+}
+.nav-mobile-btn-solid:hover { background: #7c3aed; border-color: #7c3aed; color: #fff; }
+.nav-mobile-btn-outline { background: transparent; }
+
+@keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+
+@media (max-width: 768px) {
+  #booqi-navbar .nav-links { display: none; }
+  #booqi-navbar .nav-actions { display: none; }
+  .nav-hamburger { display: flex; }
+  #booqi-navbar { padding: 0 1.25rem; }
+}
+
+@media (min-width: 769px) {
+  .nav-hamburger { display: none; }
+  .nav-mobile-drawer { display: none; }
+  .nav-mobile-overlay { display: none; }
+}
+
+
+/* ──────────────────────────────────────────────────────────────
+   HOME — extensiones mobile
+   ────────────────────────────────────────────────────────────── */
+
+@media (max-width: 480px) {
+  .home-hero-card {
+    padding: 1.5rem 1.25rem;
+    margin: 0 1rem;
+    border-radius: 14px;
+  }
+  .home-hero-card h1 { font-size: 1.5rem; }
+  .home-hero-card p { font-size: 0.9rem; }
+  .home-hero-cta { width: 100%; text-align: center; }
+
+  .home-featured { padding: 2.5rem 1rem; }
+  .home-featured-text { flex: none; }
+  .home-featured-card { flex: 0 0 220px; }
+
+  .home-testimonials { padding: 2.5rem 1rem; }
+  .testimonial-card { padding: 1.25rem; }
+
+  .home-hashtag { padding: 2rem 1rem; }
+  .home-hashtag-grid {
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: auto;
+  }
+  .home-hashtag-img { height: 140px; }
+
+  .home-developers { padding: 2rem 1rem; }
+  .home-developer-card { min-width: 100%; padding: 1.5rem; }
+
+  .home-footer { padding: 1.5rem 1rem; }
+  .home-footer-links { gap: 1rem; font-size: 0.8rem; }
+}
+
+
+/* ──────────────────────────────────────────────────────────────
+   EVENTS — extensiones mobile
+   ────────────────────────────────────────────────────────────── */
+
+@media (max-width: 768px) {
+  .ev-hero { height: 220px; }
+  .ev-hero-content { top: 68px; }
+  .ev-hero-content h1 { font-size: 1.6rem; }
+
+  .ev-toolbar {
+    gap: 0.6rem;
+    padding: 0.85rem 1rem;
+  }
+  .ev-toolbar-divider { display: none; }
+  .ev-category-tabs { gap: 0.35rem; }
+  .ev-cat-tab { font-size: 0.78rem; padding: 0.35rem 0.75rem; }
+
+  .ev-grid { grid-template-columns: 1fr 1fr; gap: 1rem; }
+
+  .ev-add-btn { width: 100%; justify-content: center; padding: 0.5rem; }
+}
+
+@media (max-width: 480px) {
+  .ev-grid { grid-template-columns: 1fr; }
+  .ev-hero-content h1 { font-size: 1.3rem; }
+  .ev-breadcrumb { font-size: 0.78rem; }
+
+  .ev-filter-btn span { display: none; }
+  .ev-filter-btn { padding: 0.5rem 0.75rem; }
+
+  .ev-toolbar-right { width: 100%; }
+  .ev-search { width: 100%; }
+
+  .ev-pagination { gap: 0.25rem; }
+  .ev-page-btn { padding: 0.4rem 0.6rem; font-size: 0.78rem; }
+}
+
+
+/* ──────────────────────────────────────────────────────────────
+   EVENT DETAIL — extensiones mobile
+   ────────────────────────────────────────────────────────────── */
+
+@media (max-width: 768px) {
+  .evd-root { padding-top: 68px; }
+
+  .evd-top-bar { flex-direction: column; align-items: flex-start; }
+  .evd-back-btn { font-size: 0.85rem; }
+
+  .evd-content { padding: 1.25rem; }
+  .evd-title { font-size: 1.3rem; }
+
+  .evd-image-container { min-height: 240px; }
+
+  .evd-purchase-box {
+    position: static;
+    margin-top: 0;
+  }
+}
+
+@media (max-width: 480px) {
+  .evd-wrapper { padding: 0.75rem; }
+  .evd-content { padding: 1rem; }
+  .evd-title { font-size: 1.15rem; }
+  .evd-image-container { min-height: 200px; }
+
+  .evd-add-cart-btn {
+    width: 100%;
+    justify-content: center;
+    padding: 0.85rem;
+    font-size: 1rem;
+  }
+
+  .home-footer { padding: 1.5rem 1rem; }
+}
+
+
+/* ──────────────────────────────────────────────────────────────
+   CART — extensiones mobile
+   ────────────────────────────────────────────────────────────── */
+
+@media (max-width: 768px) {
+  .cart-header { padding: 1.5rem 1rem 1rem; padding-top: calc(68px + 1.5rem); }
+
+  .cart-table th:nth-child(3),
+  .cart-table td:nth-child(3) { display: none; }
+
+  .cart-item-name { font-size: 0.88rem; }
+
+  .cart-summary { padding: 1.25rem; }
+
+  .cart-features { gap: 1rem; padding: 1.5rem 1rem; }
+  .cart-feature-text h4 { font-size: 0.85rem; }
+  .cart-feature-text p { font-size: 0.75rem; }
+
+  .cart-footer { padding: 1.5rem 1rem; gap: 1.5rem; }
+}
+
+@media (max-width: 480px) {
+  .cart-table { font-size: 0.82rem; }
+  .cart-table th, .cart-table td { padding: 0.65rem 0.5rem; }
+
+  .cart-item-img { width: 44px; height: 44px; }
+  .cart-item-cell { gap: 0.5rem; }
+
+  .cart-features { grid-template-columns: 1fr; }
+
+  .cart-footer { grid-template-columns: 1fr; text-align: center; }
+  .cart-footer-links { align-items: center; }
+}
+
+
+/* ──────────────────────────────────────────────────────────────
+   CHECKOUT — extensiones mobile
+   ────────────────────────────────────────────────────────────── */
+
+@media (max-width: 768px) {
+  .chk-steps {
+    gap: 0;
+    overflow-x: auto;
+    padding-bottom: 0.5rem;
+    justify-content: flex-start;
+    padding-left: 1rem;
+  }
+  .chk-step-label { font-size: 0.7rem; }
+  .chk-step-line { max-width: 40px; }
+
+  .chk-section-title { font-size: 0.95rem; }
+
+  .chk-success-card { margin: 2rem 1rem; padding: 2rem 1.25rem; }
+}
+
+@media (max-width: 480px) {
+  .chk-page { padding: 1.5rem 0.75rem; }
+
+  .chk-steps { gap: 0; }
+  .chk-step-dot { width: 28px; height: 28px; font-size: 0.8rem; }
+
+  .chk-field input,
+  .chk-field select { font-size: 0.9rem; padding: 0.6rem 0.85rem; }
+
+  .chk-btn { width: 100%; justify-content: center; padding: 0.85rem; }
+
+  .chk-order-items { max-height: 180px; overflow-y: auto; }
+
+  .home-footer { padding: 1.5rem 1rem; }
+}
+
+
+/* ──────────────────────────────────────────────────────────────
+   CONTACT — extensiones mobile
+   ────────────────────────────────────────────────────────────── */
+
+@media (max-width: 768px) {
+  .contact-hero { height: 200px; }
+  .contact-hero-content { padding: 0 1.25rem; }
+  .contact-eyebrow { font-size: 0.7rem; }
+  .contact-breadcrumb { font-size: 0.78rem; }
+
+  .contact-page { padding-top: 68px; }
+}
+
+@media (max-width: 480px) {
+  .contact-hero { height: 170px; }
+  .contact-form-side { padding: 1.5rem 1rem; }
+  .contact-features { grid-template-columns: 1fr; padding: 1.5rem 1rem; }
+  .contact-feature { flex-direction: column; gap: 0.5rem; }
+  .contact-submit { width: 100%; justify-content: center; }
+
+  .contact-success-card { padding: 1.5rem 1.25rem; }
+  .contact-success-icon { font-size: 2rem; }
+
+  .home-footer { padding: 1.5rem 1rem; }
+  .home-footer-links { flex-direction: column; align-items: center; gap: 0.5rem; }
+}
+
+
+/* ──────────────────────────────────────────────────────────────
+   LOGIN — extensiones mobile
+   ────────────────────────────────────────────────────────────── */
+
+@media (max-width: 480px) {
+  .login-right { padding: 1.5rem 1.25rem; }
+  .login-title { font-size: 1.4rem; }
+  .login-subtitle { font-size: 0.85rem; }
+
+  .login-input { font-size: 0.9rem; padding: 0.65rem 0.9rem; }
+  .login-btn { padding: 0.75rem; font-size: 0.95rem; }
+  .login-divider { margin: 1rem 0; }
+}
+
+
+/* ──────────────────────────────────────────────────────────────
+   REGISTER — extensiones mobile
+   ────────────────────────────────────────────────────────────── */
+
+@media (max-width: 480px) {
+  .reg-right { padding: 1.5rem 1.25rem; }
+  .reg-title { font-size: 1.4rem; }
+
+  .reg-field input { font-size: 0.9rem; padding: 0.65rem 0.9rem; }
+  .reg-btn { padding: 0.75rem; font-size: 0.95rem; width: 100%; }
+}
+
+
+/* ──────────────────────────────────────────────────────────────
+   MY BOOKINGS — responsive completo (no tenía media queries)
+   ────────────────────────────────────────────────────────────── */
+
+@media (max-width: 768px) {
+  .mybookings-container {
+    padding: 96px 1rem 3rem;
+  }
+
+  .mybookings-header {
+    margin-bottom: 1.5rem;
+  }
+  .mybookings-header h1 {
+    font-size: 1.5rem;
+    gap: 0.5rem;
+  }
+  .mybookings-header p {
+    font-size: 0.88rem;
+  }
+
+  .mybookings-grid {
+    grid-template-columns: 1fr;
+    gap: 1rem;
+  }
+
+  .mybookings-card-header { padding: 1rem; }
+  .mybookings-card-body  { padding: 0 1rem; }
+  .mybookings-card-footer { padding: 1rem; }
+
+  .mybookings-card-title { font-size: 0.95rem; }
+
+  .mybookings-info-row {
+    font-size: 0.82rem;
+    padding: 0.4rem 0;
+  }
+
+  .mybookings-download-btn,
+  .mybookings-expand-btn {
+    width: 100%;
+    justify-content: center;
+    padding: 0.65rem;
+    font-size: 0.85rem;
+  }
+
+  .mybookings-card-footer {
+    flex-direction: column;
+    gap: 0.6rem;
+    align-items: stretch;
+  }
+
+  .mybookings-sub-bookings { padding: 0 1rem 1rem; }
+  .mybookings-sub-booking { padding: 0.75rem; }
+  .mybookings-sub-booking-header { flex-direction: column; align-items: flex-start; gap: 0.4rem; }
+  .mybookings-sub-download-btn { width: 100%; justify-content: center; }
+
+  .mybookings-login-prompt {
+    padding: 2rem 1rem;
+    margin: 0;
+  }
+  .mybookings-login-prompt h2 { font-size: 1.3rem; }
+  .mybookings-login-prompt p { font-size: 0.88rem; }
+  .mybookings-login-btn { width: 100%; justify-content: center; }
+
+  .home-footer { padding: 1.5rem 1rem; }
+}
+
+@media (max-width: 480px) {
+  .mybookings-container { padding: 80px 0.75rem 2.5rem; }
+  .mybookings-header h1 { font-size: 1.25rem; }
+
+  .mybookings-status-badge { font-size: 0.7rem; padding: 0.2rem 0.6rem; }
+
+  .mybookings-booking-id { font-size: 0.72rem; }
+
+  .mybookings-sub-booking-details { font-size: 0.8rem; }
+}
+
+
+/* ──────────────────────────────────────────────────────────────
+   ADMIN — extensiones mobile
+   ────────────────────────────────────────────────────────────── */
+
+@media (max-width: 900px) {
+  .adm-stats { grid-template-columns: repeat(2, 1fr); }
+
+  .adm-topbar { flex-direction: column; align-items: flex-start; gap: 0.75rem; }
+  .adm-topbar h1 { font-size: 1.2rem; }
+
+  .adm-card { overflow-x: auto; }
+  .adm-table { min-width: 600px; }
+
+  .adm-tabs { flex-wrap: wrap; gap: 0.35rem; }
+  .adm-tab { font-size: 0.82rem; padding: 0.4rem 0.9rem; }
+
+  .adm-sales-header-controls {
+    flex-wrap: wrap;
+    gap: 0.5rem;
+  }
+}
+
+@media (max-width: 600px) {
+  .adm-main { padding: 1rem; }
+  .adm-stats { grid-template-columns: 1fr 1fr; gap: 0.75rem; }
+
+  .adm-stat-card { padding: 1rem; }
+  .adm-stat-value { font-size: 1.3rem; }
+  .adm-stat-label { font-size: 0.75rem; }
+
+  .adm-topbar h1 { font-size: 1.1rem; }
+
+  .adm-table th, .adm-table td { padding: 0.65rem 0.85rem; font-size: 0.82rem; }
+
+  .adm-export-btn,
+  .adm-preview-btn {
+    font-size: 0.78rem;
+    padding: 4px 8px;
+  }
+
+  .adm-sales-sum-item {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.2rem;
+    padding: 0.65rem 1rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .adm-stats { grid-template-columns: 1fr; }
+
+  .adm-table { min-width: 500px; }
+  .adm-table th:nth-child(4),
+  .adm-table td:nth-child(4) { display: none; }
+
+  .adm-create-btn { width: 100%; justify-content: center; }
+}
+
+
+/* ──────────────────────────────────────────────────────────────
+   GLOBAL — meta viewport safety & smooth scroll
+   ────────────────────────────────────────────────────────────── */
+
+html {
+  scroll-behavior: smooth;
+  -webkit-text-size-adjust: 100%;
+}
+
+img, video {
+  max-width: 100%;
+  height: auto;
+}
+
+* { -webkit-tap-highlight-color: transparent; }
