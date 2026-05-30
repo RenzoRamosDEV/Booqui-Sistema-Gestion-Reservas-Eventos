@@ -6,7 +6,6 @@
     font-family: 'DM Sans', sans-serif;
     color: #1a1a1a;
     background: #fff;
-    padding-top: 96px;
   }
 
   /* navbar */
@@ -45,10 +44,12 @@
   /* hero igual que en eventos */
   .contact-hero {
     position: relative;
-    height: 240px;
+    min-height: 336px;
+    padding-top: 96px;
     background-image: url('https://images.unsplash.com/photo-1467810563316-b5476525c0f9?w=1400&q=80');
     background-size: cover;
     background-position: center 40%;
+    background-color: #1a0533;
     display: flex;
     flex-direction: column;
     align-items: center;
