@@ -35,8 +35,7 @@
 
 /* HERO BANNER */
 .ev-hero {
-  position: relative; min-height: 336px; padding-top: 96px;
-  display: flex; align-items: center; justify-content: center;
+  position: relative; height: 336px;
   overflow: hidden;
 }
 .ev-hero-bg {
@@ -46,7 +45,14 @@
   filter: brightness(0.35);
 }
 .ev-hero-overlay { position: absolute; inset: 0; background: rgba(91,33,182,0.45); }
-.ev-hero-content { position: relative; z-index: 2; text-align: center; color: #fff; }
+.ev-hero-content {
+  position: absolute;
+  top: 96px; left: 0; right: 0;
+  height: 240px;
+  display: flex; flex-direction: column;
+  align-items: center; justify-content: center;
+  z-index: 2; text-align: center; color: #fff;
+}
 .ev-hero-content h1 { font-family: 'Playfair Display', serif; font-size: clamp(2rem, 4vw, 3rem); margin-bottom: 0.5rem; }
 .ev-breadcrumb { font-size: 0.88rem; color: rgba(255,255,255,0.65); }
 .ev-breadcrumb a { color: rgba(255,255,255,0.65); text-decoration: none; }
