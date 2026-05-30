@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom'
 import Navbar from '../../components/Navbar/Navbar'
 import contactImage from '../../assets/contacto.jpg'
 import './Contact.css'
+import './Contact.mobile.css'
 
 const CONFETTI_COLORS = ['#7c3aed','#a78bfa','#4a1a6b','#f0abfc','#fbbf24','#34d399','#60a5fa']
 
