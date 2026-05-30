@@ -240,7 +240,6 @@
 /* hero → ver Contact.mobile.css */
 @media (max-width: 768px) {
   .contact-eyebrow { font-size: 0.7rem; }
-  .contact-page { padding-top: 68px; }
 }
 
 @media (max-width: 480px) {
