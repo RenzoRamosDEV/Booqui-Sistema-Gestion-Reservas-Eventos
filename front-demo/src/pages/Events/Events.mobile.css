@@ -19,7 +19,7 @@
     justify-content: center;
   }
 
-  .ev-hero-content h1 {
+  .ev-hero .ev-hero-content h1 {
     font-size: 2.8rem;
     margin-bottom: 0.4rem;
   }
