@@ -5,7 +5,7 @@
   .contact-page {
     font-family: 'DM Sans', sans-serif;
     color: #1a1a1a;
-    background: #fff;
+    background: linear-gradient(to bottom, #0d001a 96px, #fff 96px);
     padding-top: 96px;
   }
 
