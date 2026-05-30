@@ -111,7 +111,6 @@ export default function Login() {
         <div className="login-form-wrapper">
           <div className="login-form-header">
             <h1>Bienvenido</h1>
-            <p>¿No tienes cuenta? <Link to="/register">Regístrate gratis</Link></p>
           </div>
 
           <form onSubmit={handleSubmit} noValidate>
