@@ -28,7 +28,7 @@
   .contact-hero-content {
     position: absolute;
     top: 96px; left: 0; right: 0;
-    height: 120px;
+    height: 240px;
     display: flex; flex-direction: column;
     align-items: center; justify-content: center;
     z-index: 1;
