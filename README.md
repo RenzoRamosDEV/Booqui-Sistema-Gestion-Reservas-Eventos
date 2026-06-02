@@ -77,26 +77,6 @@ Microservicio para el procesamiento de pagos.
 - **Admin Panel**: Panel administrativo para gestión de eventos
 - **Contact**: Formulario de contacto
 
-## Capturas de Pantalla
-
-### Inicio
-![Inicio](assets/INICIO.png)
-
-### Catálogo de Eventos
-![Eventos](assets/EVENTOS.png)
-
-### Detalle de Evento
-![Preview de Evento](assets/PREVIEWDEEVENTO.png)
-
-### Carrito de Compras
-![Carrito](assets/CARRITO.png)
-
-### Ticket / Entrada Generada
-![Entrada](assets/ENTRADA.png)
-
-### Panel de Administración
-![Panel de Admin](assets/PANELDEADMIN.png)
-
 ## Stack Tecnológico
 
 ### Backend (Microservicios)
