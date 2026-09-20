@@ -1,168 +1,144 @@
-# Booqi - Sistema de Gestión de Reservas de Eventos
+<div align="center">
 
-Sistema de gestión de reservas de eventos desarrollado con arquitectura de microservicios, que permite a los usuarios explorar eventos, realizar reservas y gestionar pagos de manera eficiente.
+# Booqi
 
-## REPOSITORIO ORIGINAL
+**Sistema de gestión de reservas de eventos con arquitectura de microservicios.**
 
-https://gitlab.com/booqui
+Explorar eventos, reservar entradas, pagar y generar el ticket en PDF.
 
-## Descripción del Proyecto
+[**Ver la demo →**](https://renzoramosdev.github.io/Booqui-Sistema-Gestion-Reservas-Eventos/)
 
-Booqi es una plataforma completa para la gestión de eventos y reservas que facilita la compra de entradas para diversos tipos de eventos. El sistema está diseñado con una arquitectura de microservicios independientes que se comunican entre sí, garantizando escalabilidad, mantenibilidad y alta disponibilidad.
+![Java](https://img.shields.io/badge/Java-17-ED8B00?logo=openjdk&logoColor=white)
+![Spring Boot](https://img.shields.io/badge/Spring_Boot-4.0-6DB33F?logo=springboot&logoColor=white)
+![React](https://img.shields.io/badge/React-19-61DAFB?logo=react&logoColor=white)
+![MySQL](https://img.shields.io/badge/MySQL-8.0-4479A1?logo=mysql&logoColor=white)
+![Docker](https://img.shields.io/badge/Docker_Compose-6_contenedores-2496ED?logo=docker&logoColor=white)
+![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)
 
-### Características Principales
+</div>
 
-- **Gestión de Usuarios**: Registro, autenticación y administración de perfiles de usuario
-- **Catálogo de Eventos**: Exploración y búsqueda de eventos disponibles con información detallada
-- **Sistema de Reservas**: Proceso completo de reserva de entradas para eventos
-- **Procesamiento de Pagos**: Gestión segura de transacciones y pagos de reservas
-- **Generación de Tickets**: Creación automática de tickets en formato PDF
-- **Panel de Administración**: Gestión de eventos, reportes y estadísticas
-- **Mis Reservas**: Visualización del historial de reservas del usuario
+> [!NOTE]
+> La demo enlazada arriba es una **demo visual del frontend**, sin los microservicios detrás. El sistema completo se levanta con Docker Compose, como se explica más abajo.
+>
+> Repositorio original: https://gitlab.com/booqui
 
-## Arquitectura del Sistema
+---
 
-El proyecto está compuesto por **4 microservicios backend** independientes, **1 frontend** web y una **capa de despliegue** con Docker:
+## La aplicación
 
-### Microservicios Backend
+<div align="center">
 
-#### 1. User Service (Puerto 8080)
-Microservicio encargado de la gestión de usuarios y autenticación.
+<img src="docs/screenshots/eventos.jpg" alt="Catálogo de eventos con filtros por categoría, buscador y tarjetas con precio y disponibilidad" width="100%">
 
-**Funcionalidades:**
-- Registro de nuevos usuarios
-- Autenticación y login
-- Gestión de perfiles de usuario
-- Administración de roles y permisos
+</div>
 
-#### 2. Event Service (Puerto 8081)
-Microservicio para la administración del catálogo de eventos.
+| Portada | Panel de administración |
+|:---:|:---:|
+| <img src="docs/screenshots/inicio.jpg" alt="Portada con el titular Gestiona tus eventos sin complicaciones sobre una imagen de concierto" width="100%"> | <img src="docs/screenshots/panel-admin.jpg" alt="Panel de administración con las métricas de usuarios, eventos, categorías y precio medio, y la tabla de usuarios registrados" width="100%"> |
+| Entrada al catálogo y a los eventos destacados. | Usuarios, eventos y ventas, con las métricas del catálogo. |
 
-**Funcionalidades:**
-- Creación y gestión de eventos
-- Consulta de eventos disponibles
-- Gestión de capacidad y disponibilidad
-- Categorización de eventos
+| Acceso | Contacto |
+|:---:|:---:|
+| <img src="docs/screenshots/login.jpg" alt="Pantalla de acceso partida en dos, con imagen a la izquierda y formulario de email y contraseña a la derecha" width="100%"> | <img src="docs/screenshots/contacto.jpg" alt="Página de contacto de Booqi" width="100%"> |
+| Registro y login, con cuentas de demo a la vista. | Formulario de contacto. |
 
-#### 3. Booking Service (Puerto 8082)
-Microservicio que gestiona las reservas de los usuarios.
+---
 
-**Funcionalidades:**
-- Creación de reservas
-- Consulta de reservas por usuario
-- Actualización de estado de reservas
-- Validación de disponibilidad
+## Qué hace
 
-#### 4. Payment Service (Puerto 8083)
-Microservicio para el procesamiento de pagos.
+| | |
+|---|---|
+| 👤 | **Gestión de usuarios** — registro, autenticación y administración de perfiles |
+| 🎫 | **Catálogo de eventos** — exploración y búsqueda con información detallada |
+| 🛒 | **Sistema de reservas** — proceso completo de reserva de entradas |
+| 💳 | **Procesamiento de pagos** — gestión de transacciones |
+| 📄 | **Generación de tickets** — creación automática en PDF |
+| 📊 | **Panel de administración** — gestión de eventos, reportes y estadísticas |
+| 🗂️ | **Mis reservas** — historial de reservas del usuario |
 
-**Funcionalidades:**
-- Procesamiento de pagos
-- Registro de transacciones
-- Actualización de estado de pagos
-- Integración con servicios de reservas
+---
+
+## Arquitectura
+
+Cuatro microservicios backend independientes, un frontend y una capa de despliegue con Docker.
+
+| Servicio | Puerto | De qué se encarga |
+|---|:---:|---|
+| **User Service** | 8080 | Registro, login, perfiles, roles y permisos |
+| **Event Service** | 8081 | Catálogo de eventos, capacidad, disponibilidad y categorías |
+| **Booking Service** | 8082 | Creación y consulta de reservas, y validación de disponibilidad |
+| **Payment Service** | 8083 | Procesamiento de pagos y estado de las transacciones |
+
+Cada microservicio tiene **su propia base de datos** (`user`, `event`, `booking`, `payment`), siguiendo el patrón *Database per Service*. Se comunican entre sí por **REST con `RestTemplate`**: Booking consume User y Event; Payment consume Booking y Event.
+
+### Vistas del frontend
+
+Home · Events · Event Detail · Cart · Checkout · My Bookings · Login/Register · Admin Panel · Contact
+
+---
+
+## Stack
+
+### Backend
+
+| Tecnología | Versión | Para qué |
+|---|---|---|
+| Java | 17 | Lenguaje principal |
+| Spring Boot | 4.0.3 | Framework de las aplicaciones |
+| Spring Data JPA | — | Persistencia y acceso a datos |
+| Spring Web | — | APIs RESTful |
+| Spring Validation | — | Validación de datos |
+| MySQL | 8.0 | Base de datos relacional |
+| Lombok | — | Menos código repetitivo |
+| MapStruct | 1.5.5 | Mapeo de objetos |
+| SpringDoc OpenAPI | 2.3.0 | Documentación automática de las APIs |
+| Maven | — | Dependencias y build |
 
 ### Frontend
 
-**Aplicación web moderna** desarrollada con React que proporciona una interfaz de usuario intuitiva y responsiva.
+| Tecnología | Versión | Para qué |
+|---|---|---|
+| React | 19.2.0 | Interfaz de usuario |
+| Vite | 7.3.1 | Build y servidor de desarrollo |
+| React Router DOM | 7.13.1 | Enrutado |
+| Axios | 1.13.5 | Cliente HTTP |
+| Bootstrap | 5.3.8 | Diseño responsivo |
+| Bootstrap Icons | 1.13.1 | Iconografía |
+| PDF-Lib | 1.17.1 | Generación de los tickets en PDF |
+| ESLint | 9.39.1 | Linting |
 
-**Páginas principales:**
-- **Home**: Página de inicio con eventos destacados
-- **Events**: Catálogo completo de eventos
-- **Event Detail**: Información detallada de cada evento
-- **Cart**: Carrito de compras para gestionar reservas
-- **Checkout**: Proceso de pago
-- **My Bookings**: Historial de reservas del usuario
-- **Login/Register**: Autenticación de usuarios
-- **Admin Panel**: Panel administrativo para gestión de eventos
-- **Contact**: Formulario de contacto
+### Infraestructura
 
-## Stack Tecnológico
+**Docker** para contenerizar cada servicio, **Docker Compose** para orquestarlos, **Nginx** sirviendo el frontend y **MySQL** como base de datos.
 
-### Backend (Microservicios)
+---
 
-| Tecnología | Versión | Propósito |
-|------------|---------|-----------|
-| **Java** | 17 | Lenguaje de programación principal |
-| **Spring Boot** | 4.0.3 | Framework para desarrollo de aplicaciones |
-| **Spring Data JPA** | - | Persistencia y acceso a datos |
-| **Spring Web** | - | Desarrollo de APIs RESTful |
-| **Spring Validation** | - | Validación de datos |
-| **MySQL** | 8.0 | Base de datos relacional |
-| **Lombok** | - | Reducción de código boilerplate |
-| **MapStruct** | 1.5.5 | Mapeo de objetos |
-| **SpringDoc OpenAPI** | 2.3.0 | Documentación automática de APIs |
-| **Maven** | - | Gestión de dependencias y build |
-| **Docker** | - | Containerización de servicios |
+## Documentación de las APIs
 
-### Frontend
+Cada microservicio publica su documentación con Swagger/OpenAPI:
 
-| Tecnología | Versión | Propósito |
-|------------|---------|-----------|
-| **React** | 19.2.0 | Framework de interfaz de usuario |
-| **Vite** | 7.3.1 | Herramienta de build y desarrollo |
-| **React Router DOM** | 7.13.1 | Enrutamiento de la aplicación |
-| **Axios** | 1.13.5 | Cliente HTTP para APIs |
-| **Bootstrap** | 5.3.8 | Framework CSS para diseño responsivo |
-| **Bootstrap Icons** | 1.13.1 | Iconografía |
-| **PDF-Lib** | 1.17.1 | Generación de tickets PDF |
-| **ESLint** | 9.39.1 | Linting de código |
+```
+http://localhost:8080/swagger-ui.html    # User
+http://localhost:8081/swagger-ui.html    # Event
+http://localhost:8082/swagger-ui.html    # Booking
+http://localhost:8083/swagger-ui.html    # Payment
+```
 
-### Infraestructura y Deployment
+---
 
-| Tecnología | Propósito |
-|------------|-----------|
-| **Docker** | Containerización de todos los servicios |
-| **Docker Compose** | Orquestación de múltiples contenedores |
-| **Nginx** | Servidor web para el frontend |
-| **MySQL** | Base de datos centralizada |
+## Despliegue
 
-## Base de Datos
+El proyecto está completamente dockerizado. Docker Compose orquesta seis contenedores:
 
-El sistema utiliza **MySQL 8.0** con una arquitectura de base de datos distribuida:
+- 1 de MySQL
+- 4 de los microservicios backend
+- 1 del frontend con Nginx
 
-- **user**: Base de datos del servicio de usuarios
-- **event**: Base de datos del servicio de eventos
-- **booking**: Base de datos del servicio de reservas
-- **payment**: Base de datos del servicio de pagos
+Con una red Docker dedicada para la comunicación entre servicios y volúmenes persistentes para la base de datos.
 
-Cada microservicio tiene su propia base de datos, siguiendo el patrón de **Database per Service** de arquitectura de microservicios.
+---
 
-## Comunicación entre Servicios
-
-Los microservicios se comunican entre sí mediante **REST APIs** utilizando **RestTemplate**:
-
-- **Booking Service** consume APIs de User Service y Event Service
-- **Payment Service** consume APIs de Booking Service y Event Service
-
-## Documentación de APIs
-
-Cada microservicio cuenta con documentación automática de su API mediante **Swagger/OpenAPI**, accesible en:
-
-- User Service: `http://localhost:8080/swagger-ui.html`
-- Event Service: `http://localhost:8081/swagger-ui.html`
-- Booking Service: `http://localhost:8082/swagger-ui.html`
-- Payment Service: `http://localhost:8083/swagger-ui.html`
-
-## Características Técnicas
-
-### Patrones de Diseño
-- **Arquitectura de Microservicios**
-- **Repository Pattern**
-- **DTO (Data Transfer Object) Pattern**
-- **Mapper Pattern** (con MapStruct)
-- **Dependency Injection**
-
-### Buenas Prácticas
-- **Separación de capas** (Controller, Service, Repository)
-- **Validación de datos** con Bean Validation
-- **Mapeo automático** de entidades con MapStruct
-- **Configuración CORS** para comunicación frontend-backend
-- **Healthchecks** en contenedores Docker
-- **Variables de entorno** para configuración
-- **Documentación automática** de APIs
-
-## Estructura del Proyecto
+## Estructura
 
 ```
 booqi/
@@ -176,21 +152,14 @@ booqi/
     └── 001_init_database.sql
 ```
 
-## Despliegue
+### Patrones y prácticas
 
-El proyecto está completamente dockerizado y puede desplegarse fácilmente usando Docker Compose, que orquesta:
-
-- 1 contenedor de MySQL
-- 4 contenedores para los microservicios backend
-- 1 contenedor para el frontend con Nginx
-- Red Docker dedicada para comunicación entre servicios
-- Volúmenes persistentes para la base de datos
-
-## Desarrolladores
-
-- **Renzo Iván Ramos de los Ríos**
-- **Melanie Gabriela Cárdenas Hidalgo**
+Arquitectura de microservicios · Repository Pattern · DTO · Mapper con MapStruct · Inyección de dependencias · Separación en capas (Controller, Service, Repository) · Bean Validation · CORS configurado · Healthchecks en los contenedores · Variables de entorno
 
 ---
 
-**Licencia**: [MIT License](LICENSE)
+## Desarrolladores
+
+**Renzo Iván Ramos de los Ríos** · **Melanie Gabriela Cárdenas Hidalgo**
+
+**Licencia**: [MIT](LICENSE)
